@@ -1,0 +1,19 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "个人笔记",
+  "main": "index.js",
+  "scripts": {
+    "serve": "docsify serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaoYown/notes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiaoYown/notes/issues"
+  },
+  "homepage": "https://github.com/xiaoYown/notes#readme"
+}
