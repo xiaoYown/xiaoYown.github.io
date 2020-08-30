@@ -2,7 +2,8 @@
 - [moment] - 时间格式化库
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
-- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流、防抖 [demo](/常用/demo[throttle-debounce])
+- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流、防抖 [demo](/usual/demo[throttle-debounce])
+- [crypto-js] - 加密|解密 [demo](/usual/demo[crypto-js])
 - [amfe-flexible] - 移动端布局方案(新的 lib-flexible)
 - [postcss-any2rem] - 任意单位转换 rem
 - [amr-js](https://www.npmjs.com/package/amr-js) audio 解码
