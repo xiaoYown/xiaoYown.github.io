@@ -4,7 +4,7 @@
   "description": "个人笔记",
   "main": "index.js",
   "scripts": {
-    "serve": "docsify serve 3020"
+    "serve": "docsify serve -p 3020"
   },
   "repository": {
     "type": "git",
