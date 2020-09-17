@@ -16,6 +16,15 @@
 - 封装全局 url 转换函数
 - open|location.replace|location.href 跳转封装
 ```
+nginx 二级目录配置:
+```
+server {
+  listen 80;
+  location ^~ /projectid/ {
+    proxy_pass http://localhost:84/;
+  } 
+}
+```
 
 - 接口代理
 - UI 库选择

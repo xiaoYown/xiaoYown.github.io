@@ -4,7 +4,8 @@
   "description": "个人笔记",
   "main": "index.js",
   "scripts": {
-    "serve": "docsify serve -p 3020"
+    "serve": "docsify serve -p 3020",
+    "start": "pm2 start --name docsify npm -- run serve"
   },
   "repository": {
     "type": "git",
