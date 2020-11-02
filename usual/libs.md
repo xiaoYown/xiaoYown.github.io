@@ -1,5 +1,6 @@
 - [axios] - 请求库
 - [moment] - 时间格式化库
+- [dayjs](https://dayjs.gitee.io/zh-CN) - 时间格式化库(轻量的处理时间和日期的 JavaScript 库，和 Moment.js 的 API 设计保持完全一样)
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
 - [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流、防抖 [demo](/usual/demo[throttle-debounce])
@@ -13,3 +14,4 @@
 - [simple-statistics](https://simplestatistics.org/) 数据聚合
 - [docsify](https://docsify.js.org/) 文档快速制作
 - [simple-statistics.js](https://simplestatistics.org/) 浏览器、服务器和人员的可读 JavaScript 统计方法
+- [memoize-one](https://www.npmjs.com/package/memoize-one) 纯函数函数记忆入参, 性能提升
