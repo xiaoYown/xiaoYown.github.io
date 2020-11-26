@@ -14,4 +14,5 @@
 - [simple-statistics](https://simplestatistics.org/) 数据聚合
 - [docsify](https://docsify.js.org/) 文档快速制作
 - [simple-statistics.js](https://simplestatistics.org/) 浏览器、服务器和人员的可读 JavaScript 统计方法
-- [memoize-one](https://www.npmjs.com/package/memoize-one) 纯函数函数记忆入参, 性能提升
+- [memoize-one](https://www.npmjs.com/package/memoize-one) 纯函数单次记忆入参, 性能提升
+- [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
