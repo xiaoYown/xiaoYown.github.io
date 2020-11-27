@@ -3,3 +3,4 @@
 - [AST](https://astexplorer.net/) - 语法树
 - [RegExp](https://jex.im/regulex/) - 正则翻译
 - [获取IOS设备ID](https://www.pgyer.com/tools/udid) - 蒲公英获取设备唯一ID
+- [vscode extention](https://code.visualstudio.com/api/get-started/your-first-extension) - vscode 插件
