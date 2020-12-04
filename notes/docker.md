@@ -167,3 +167,12 @@ cd /var/lib/docker
 ```
 docker system prune --volumes
 ```
+
+> node
+
+```yml
+# 获取 slim 镜像
+docker pull node:14.15.1-slim
+# 创建容器
+docker run -d -p 3000:3000 --name easy_format_xv node:14.15.1-slim node -e "require('http').createServer((req, res) => res.end('Hello World')).listen(3030)"
+```
