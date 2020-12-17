@@ -129,6 +129,10 @@ git push origin --delete btanch_name
 # 设置关联的远程分支
 git branch --set-upstream-to=origin/<branch> <branch_local>
 
-# 提交合并
+# 当前修改提交合并
 git commit --amend
+
+# 历史提交合并
+git rebase -i HEAD~2
+git rebase --abort
 ```
