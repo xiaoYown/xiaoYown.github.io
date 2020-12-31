@@ -16,3 +16,4 @@
 - [simple-statistics.js](https://simplestatistics.org/) 浏览器、服务器和人员的可读 JavaScript 统计方法
 - [memoize-one](https://www.npmjs.com/package/memoize-one) 纯函数单次记忆入参, 性能提升
 - [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
+- [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint

@@ -22,7 +22,7 @@ server {
   listen 80;
   location ^~ /projectid/ {
     proxy_pass http://localhost:84/;
-  } 
+  }
 }
 ```
 
