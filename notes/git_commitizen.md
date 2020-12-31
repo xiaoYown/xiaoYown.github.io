@@ -1,5 +1,9 @@
 [参考](https://juejin.cn/post/6844904025868271629)
 
+- commitizen
+- cz-conventional-changelog
+- conventional-changelog-cli
+
 ### 安装
 
 npm i -D commitizen cz-conventional-changelog
