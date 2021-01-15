@@ -51,6 +51,7 @@ server {
 #### 次要准备:
 
 - 文档生成
+- 语义化版本控制模块-Semver
 - changelog
 - git hooks
 - 国际化
