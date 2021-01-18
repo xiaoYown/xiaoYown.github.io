@@ -1,4 +1,6 @@
-[参考](https://juejin.cn/post/6844904025868271629)
+[参考1](https://juejin.cn/post/6844904025868271629)
+[参考2](https://juejin.cn/post/6844903831893966856)
+[参考3](https://juejin.cn/post/6844903847924596743)
 
 - commitizen
 - cz-conventional-changelog
@@ -24,12 +26,12 @@ npm i -D commitizen cz-conventional-changelog
 }
 ```
 
-### commitlint校验
+<!-- ### commitlint校验
 
-npm i -D @commitlint/config-conventional @commitlint/cli
+npm i -D @commitlint/config-conventional @commitlint/cli -->
 
 
-### 自定义提交规范
+### 自定义提交规范(不建议使用)
 
 npm i -D commitlint-config-cz  cz-customizable
 
@@ -53,21 +55,66 @@ npm i -D commitlint-config-cz  cz-customizable
 // .cz-config.js
 module.exports = {
   types: [
-    { value: "init", name: "init: 初始提交" },
-    { value: "feat", name: "feat: 增加新功能" },
-    { value: "fix", name: "fix: 修复bug" },
-    { value: "ui", name: "ui: 更新UI" },
-    { value: "refactor", name: "refactor: 代码重构" },
-    { value: "release", name: "release: 发布" },
-    { value: "deploy", name: "deploy: 部署" },
-    { value: "docs", name: "docs: 修改文档" },
-    { value: "test", name: "test: 增删测试" },
-    { value: "chore", name: "chore: 更改配置文件" },
-    { value: "style", name: "style: 样式修改不影响逻辑" },
-    { value: "revert", name: "revert: 版本回退" },
-    { value: "add", name: "add: 添加依赖" },
-    { value: "minus", name: "minus: 版本回退" },
-    { value: "del", name: "del: 删除代码/文件" },
+    {
+      value: "init",
+      name: "init: 初始提交"
+    },
+    {
+      value: "feat",
+      name: "feat: 新功能(feature)"
+    },
+    {
+      value: "fix",
+      name: "fix: 修补 bug"
+    },
+    {
+      value: "ui",
+      name: "ui: 更新UI"
+    },
+    {
+      value: "refactor",
+      name: "refactor: 重构(即不是新增功能，也不是修改 bug 的代码变动)"
+    },
+    {
+      value: "release",
+      name: "release: 发布"
+    },
+    {
+      value: "deploy",
+      name: "deploy: 部署"
+    },
+    {
+      value: "docs",
+      name: "docs: 修改文档"
+    },
+    {
+      value: "test",
+      name: "test: 增删测试"
+    },
+    {
+      value: "chore",
+      name: "chore: 构建过程或辅助工具的变动"
+    },
+    {
+      value: "style",
+      name: "style: 格式(不影响代码运行的变动)"
+    },
+    {
+      value: "revert",
+      name: "revert: 回滚代码"
+    },
+    {
+      value: "add",
+      name: "add: 添加依赖"
+    },
+    {
+      value: "minus",
+      name: "minus: 版本回退"
+    },
+    {
+      value: "del",
+      name: "del: 删除代码/文件"
+    },
   ],
   scopes: [],
   messages: {
@@ -84,4 +131,18 @@ module.exports = {
   allowCustomScopes: true,
   allowBreakingChanges: ["feat", "fix"],
 };
+```
+
+### changelog 生成
+
+npm i standard-version -D
+
+```json
+{
+  "scripts": {
+    "release": "npx standard-version",
+    "release:beta": "npx standard-version -p beta",
+    "release:v": "standard-version -r"
+  }
+}
 ```
