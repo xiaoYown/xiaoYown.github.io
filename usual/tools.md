@@ -1,2 +1,0 @@
-- [cypress](https://www.cypress.io/) js 自动化测试工具
-- [npm](https://www.npmjs.cn/misc/scripts/) npm 文档

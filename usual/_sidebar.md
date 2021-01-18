@@ -1,7 +1,6 @@
 * [Home](/)
 
 * 常用收集
-  * [常用依赖](/usual/libs)
-  * [常用资料](/usual/materials)
+  * [常用收集](/usual/libs)
 
 * [其他](/notes/colors)
