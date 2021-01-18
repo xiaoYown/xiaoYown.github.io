@@ -160,10 +160,10 @@ npm i standard-version -D
     "release": "npx standard-version",
     "release:beta": "npx standard-version -p beta",
     "release:alpha": "npx standard-version -p alpha",
-    "release:patch": "standard-version -r patch",
-    "release:minor": "standard-version -r minor",
-    "release:major": "standard-version -r major",
-    "release:version": "standard-version -r"
+    "release:patch": "npx standard-version -r patch",
+    "release:minor": "npx standard-version -r minor",
+    "release:major": "npx standard-version -r major",
+    "release:version": "npx standard-version -r"
   }
 }
 ```
