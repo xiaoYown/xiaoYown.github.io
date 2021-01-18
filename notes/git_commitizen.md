@@ -6,6 +6,8 @@
 - cz-conventional-changelog
 - conventional-changelog-cli
 
+---
+
 ### 安装
 
 npm i -D commitizen cz-conventional-changelog
@@ -30,6 +32,7 @@ npm i -D commitizen cz-conventional-changelog
 
 npm i -D @commitlint/config-conventional @commitlint/cli -->
 
+---
 
 ### 自定义提交规范(不建议使用)
 
@@ -133,7 +136,21 @@ module.exports = {
 };
 ```
 
-### changelog 生成
+---
+
+### semver
+
+遵循 semver。
+
+下面是一个表格，明确地将变化的类型映射到它们对应的 semver 类别 (例如Major，Minor，Patch)。
+
+| Major 版本增量 |	Minor 版本增量	| Patch 版本增量|
+|-|-|-|
+| 突破性变更 | 无突破性变更	| 修复 |
+
+---
+
+### [changelog 生成](https://www.npmjs.com/package/standard-version)
 
 npm i standard-version -D
 
@@ -142,7 +159,11 @@ npm i standard-version -D
   "scripts": {
     "release": "npx standard-version",
     "release:beta": "npx standard-version -p beta",
-    "release:v": "standard-version -r"
+    "release:alpha": "npx standard-version -p alpha",
+    "release:patch": "standard-version -r patch",
+    "release:minor": "standard-version -r minor",
+    "release:major": "standard-version -r major",
+    "release:version": "standard-version -r"
   }
 }
 ```
