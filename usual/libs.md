@@ -35,3 +35,4 @@
 - [vscode extention](https://code.visualstudio.com/api/get-started/your-first-extension) - vscode 插件
 - [git flow](https://github.com/nvie/gitflow)
 - [lerna commit](https://github.com/lerna/lerna/blob/514bc57a53/commands/version/README.md#--conventional-commits)
+- [贡献规范](https://github.com/all-contributors/all-contributors)
