@@ -7,7 +7,7 @@
 - [path-to-regexp] - 路径转正则库
 - [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流、防抖 [demo](/usual/demo[throttle-debounce])
 - [crypto-js] - 加密|解密 [demo](/usual/demo[crypto-js])
-- [amfe-flexible] - 移动端布局方案(新的 lib-flexible)
+- [amfe-flexible|rem-flexible] - 移动端布局方案(新的 lib-flexible)
 - [postcss-any2rem] - 任意单位转换 rem
 - [amr-js](https://www.npmjs.com/package/amr-js) audio 解码
 - [vconsole](https://github.com/Tencent/vConsole) 移动端打印调试
