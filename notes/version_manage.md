@@ -89,7 +89,7 @@ npx standard-version -r <version>: 指定版本发布
 2. 开发功能
 3. 使用自定义指令(eg: yarn commit)完成代码提交, 不推荐使用 git commit 直接提交
 4. 从公共分支合并提交(cherry-pick/merge)
-5. 完成当前迭代功能合并后, 使用对应指令发布版本
+5. 完成当前迭代功能合并后, 使用对应指令发布版本, 更新(生成) CHANGELOG.md 文件
 6. 推送并打 TAG: git push --follow-tags origin master
 ```
 
