@@ -72,6 +72,29 @@ git log --oneline -n4 --graph
 # 跳转到gitlog的帮助文档网页
 git help --web log
 
+# 每次修改的文件列表, 显示状态
+git log --name-status
+
+# 每次修改的文件列表
+git log --name-only
+
+# 每次修改的文件列表, 及文件修改的统计
+git log --stat
+
+# 每次修改的文件列表
+git whatchanged
+
+# 每次修改的文件列表, 及文件修改的统计
+git whatchanged --stat
+
+# 显示最后一次的文件改变的具体内容
+git show
+
+# 显示最后 5 次的文件改变的具体内容
+git show -5
+
+# 显示某个 commitid 改变的具体内容
+git show commitid
 ```
 
 ### 5. pull request 工作流合并
