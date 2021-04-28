@@ -8,3 +8,4 @@
   * [svg2canvas](/notes/svg2canvas)
   * [gitlab搭建](/notes/gitlab)
   * [git常用指令](/notes/git_command)
+  * [版本管理](/notes/version_manage)
