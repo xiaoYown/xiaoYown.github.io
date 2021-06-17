@@ -1,11 +1,11 @@
-#### 长常用依赖
+#### 常用收藏
 
 - [axios] - 请求库
 - [moment] - 时间格式化库
 - [dayjs](https://dayjs.gitee.io/zh-CN) - 时间格式化库(轻量的处理时间和日期的 JavaScript 库，和 Moment.js 的 API 设计保持完全一样)
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
-- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流、防抖 [demo](/usual/demo[throttle-debounce])
+- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流, 防抖 [demo](/usual/demo[throttle-debounce])
 - [crypto-js] - 加密|解密 [demo](/usual/demo[crypto-js])
 - [amfe-flexible|rem-flexible] - 移动端布局方案(新的 lib-flexible)
 - [postcss-any2rem] - 任意单位转换 rem
@@ -15,15 +15,25 @@
 - [codemirror](https://codemirror.net/) 文本编辑器
 - [simple-statistics](https://simplestatistics.org/) 数据聚合
 - [docsify](https://docsify.js.org/) 文档快速制作
-- [simple-statistics.js](https://simplestatistics.org/) 浏览器、服务器和人员的可读 JavaScript 统计方法
+- [simple-statistics.js](https://simplestatistics.org/) 浏览器, 服务器和人员的可读 JavaScript 统计方法
 - [memoize-one](https://www.npmjs.com/package/memoize-one) 纯函数单次记忆入参, 性能提升
 - [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
 - [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint
 
+#### node 交互工具
+
+- 交互输入: inquirer, enquirer, prompts
+- 输出美化: chalk, kleur, ink, figlet
+- 加载动画: ora
+- 基本解析: meow,  arg
+- 参数解析: commander, yargs
+- 操作命令行: sindresorhus/ansi-escapes
+- 输出截断: sindresorhus/cli-truncate
 #### 工具
 
 - [cypress](https://www.cypress.io/) js 自动化测试工具
 - [npm](https://www.npmjs.cn/misc/scripts/) npm 文档
+- [codesandbox](https://codesandbox.io) JS 线上沙箱环境
 
 #### 资料
 
@@ -36,3 +46,12 @@
 - [git flow](https://github.com/nvie/gitflow)
 - [lerna commit](https://github.com/lerna/lerna/blob/514bc57a53/commands/version/README.md#--conventional-commits)
 - [贡献规范](https://github.com/all-contributors/all-contributors)
+- [codetop](https://codetop.cc/)
+
+#### 开源项目
+
+- [penpot](https://github.com/penpot/penpot) - 类似 figma 原型图工具
+
+#### vpn
+
+- [cylink](https://cylink.me/) - 18RMB/月

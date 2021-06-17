@@ -13,7 +13,6 @@ console.log('\u001b[31m red \u001b[39m')
 console.log('\u001b[32m green \u001b[39m')
 console.log('\u001b[33m yellow \u001b[39m')
 console.log('\u001b[34m blue \u001b[39m')
-console.log(999);
 console.log('\u001b[35m magenta \u001b[39m')
 console.log('\u001b[36m cyan \u001b[39m')
 console.log('\u001b[37m white \u001b[39m')
