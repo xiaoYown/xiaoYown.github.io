@@ -1,4 +1,4 @@
-#### 常用收藏
+### 常用收藏
 
 - [axios] - 请求库
 - [moment] - 时间格式化库
@@ -20,7 +20,7 @@
 - [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
 - [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint
 
-#### node 交互工具
+### node 交互工具
 
 - 交互输入: inquirer, enquirer, prompts
 - 输出美化: chalk, kleur, ink, figlet
@@ -29,13 +29,13 @@
 - 参数解析: commander, yargs
 - 操作命令行: sindresorhus/ansi-escapes
 - 输出截断: sindresorhus/cli-truncate
-#### 工具
+### 工具
 
 - [cypress](https://www.cypress.io/) js 自动化测试工具
 - [npm](https://www.npmjs.cn/misc/scripts/) npm 文档
 - [codesandbox](https://codesandbox.io) JS 线上沙箱环境
 
-#### 资料
+### 资料
 
 - [babel](https://www.babeljs.cn/)
 - [promise](https://promisesaplus.com/) - promise 规则
@@ -48,10 +48,10 @@
 - [贡献规范](https://github.com/all-contributors/all-contributors)
 - [codetop](https://codetop.cc/)
 
-#### 开源项目
+### 开源项目
 
 - [penpot](https://github.com/penpot/penpot) - 类似 figma 原型图工具
 
-#### vpn
+### vpn
 
 - [cylink](https://cylink.me/) - 18RMB/月

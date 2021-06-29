@@ -1,5 +1,4 @@
 [参考](https://mp.weixin.qq.com/s/LomE_ps35nNyCCYunayhCg)
-## 总结
 
 ### 浏览器所有进程
 
