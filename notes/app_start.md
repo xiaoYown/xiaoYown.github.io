@@ -53,3 +53,7 @@ server {
   }
 }
 ```
+
+#### 优化相关
+
+- dns-prefetch
