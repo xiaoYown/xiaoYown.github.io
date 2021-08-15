@@ -5,6 +5,7 @@
 - [dayjs](https://dayjs.gitee.io/zh-CN) - 时间格式化库(轻量的处理时间和日期的 JavaScript 库，和 Moment.js 的 API 设计保持完全一样)
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
+- [classnames] - 格式化标签 class 属性值
 - [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流, 防抖 [demo](/usual/demo[throttle-debounce])
 - [crypto-js] - 加密|解密 [demo](/usual/demo[crypto-js])
 - [amfe-flexible|rem-flexible] - 移动端布局方案(新的 lib-flexible)
@@ -49,6 +50,7 @@
 - [贡献规范](https://github.com/all-contributors/all-contributors)
 - [codetop](https://codetop.cc/)
 - [web.dev](https://web.dev/)
+- [ecmascript新特性介绍](https://esnext.justjavac.com/)
 
 ### 开源项目
 
