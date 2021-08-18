@@ -59,6 +59,19 @@
 - 插件异步加载方案
 - 第三方库版同资源加载方案(考虑多依赖同时使用)
 
+### 插件结构
+
+```
+- <name>_<version>
+  - application.json(插件描述文件)
+  - renderer.sys.js
+  - renderer.css(not must)
+  - options.sys.js
+  - options.source.css(not must)
+  - compatible.js(数据版本兼容处理)
+  - application.source.zip(源码存放)
+```
+
 #### 插件类型
 
 #### 插件脚手架
