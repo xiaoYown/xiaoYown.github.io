@@ -2,7 +2,7 @@
 
 ---
 
-### 概览
+### 业务功能概览
 
 - [功能模块](#功能模块)
 - [form](#form)
@@ -66,8 +66,8 @@
   - application.json(插件描述文件)
   - renderer.sys.js
   - renderer.css(not must)
-  - options.sys.js
-  - options.source.css(not must)
+  - settings.sys.js
+  - settings.source.css(not must)
   - compatible.js(数据版本兼容处理)
   - application.source.zip(源码存放)
 ```
@@ -99,3 +99,8 @@
 
 #### 数据版本兼容处理
 
+### 项目基础功能概览
+
+#### 前端异常埋点
+
+#### 访问统计
