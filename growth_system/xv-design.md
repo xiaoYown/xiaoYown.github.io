@@ -78,6 +78,62 @@
 
 #### 插件 hooks(必须固定, 无需非变革性改动不再变更)
 
+1. hooks - 编辑器内(hooks)
+
+- onBeforeMount
+- onMounted
+- onUpdate (入参为 [props, nextProps];若返回返回 promise, 则在 fulfilled 状态进行数据更新, reject 禁止更新; 若为 boolean, 返回 false 禁止更新)
+- onBeforeDestroy
+- onDestroy
+- onActivated (显示)
+- onDeactivated (隐藏)
+
+2. hooks - 渲染器
+
+- onBeforeMount
+- onMounted
+- onUpdate
+- onBeforeDestroy
+- onDestroy
+- onActivated
+- onDeactivated
+
+3. subscribe - 订阅
+
+- 数据变更订阅(编辑器)
+- 数据源更新订阅
+- 画布大小变更, resize 订阅
+
+4. 注意
+
+```
+以上规则, 为保障兼容性, hooks/subscribe 仅能在基础上更新, 若需要变更, 则为方案重新定制.
+方案重置, 则整体系统将需要重新编译以及处理所有插件 源码以及构建包, 此变更需要做大版本更新, 虽然是可兼容性变更.
+```
+
+#### 插件相关参数
+
+```json
+{
+  "element": {
+    "id": "**",
+    "name": "element-name",
+    "version": "1.0.0",
+  }
+}
+```
+
+#### 插件上架流程
+
+1. 开发及本地调试
+2. alpha 版本上架, 仅开发者账号可获取到, 可在自身账号进入编辑器进行内测
+3. beta 版本上架, 所有用户可所有到并使用
+4. stable 版本上架
+
+> alpha/beta 版本可被覆盖以及删除
+> stable 版本一经上架, 不可删除以以及覆盖, 有问题可使用下一版本 compatible 机制进行修复
+> beta/stable 版本, 若存在数据变更, 需考虑使用 compatible
+
 ---
 
 ### 渲染机制(参考 fiber 做优化)
