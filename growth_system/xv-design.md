@@ -7,9 +7,20 @@
 - [功能模块](#功能模块)
 - [form](#form)
 
+#### 报告初始类型
+
+- PC 单页大屏
+- PC 多页大屏
+- PC 长页
+- modbile 单页大屏
+- modbile 多页大屏
+- modbile 长页
+
+> 提供尺寸切换(750/1920/...), 全局尺寸自动适配(不提供自定义尺寸)
+
 ### 功能模块
 
-- chart 报表制作(编辑器/渲染器)
+- chart 报告制作(编辑器/渲染器)
 - form 表单制作(编辑器/渲染器)
 - 数据源(静态数据/API/数据库接入)
 - 流程图(编辑器/渲染器)
@@ -97,6 +108,10 @@
 - onDestroy
 - onActivated
 - onDeactivated
+- onAnimationInActive
+- onAnimationInEnd
+- onAnimationOutActive
+- onAnimationOutEnd
 
 3. subscribe - 订阅
 
