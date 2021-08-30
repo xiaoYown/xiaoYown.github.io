@@ -80,23 +80,23 @@
 
 1. hooks - 编辑器内(hooks)
 
-- onBeforeMount
-- onMounted
-- onUpdate (入参为 [props, nextProps];若返回返回 promise, 则在 fulfilled 状态进行数据更新, reject 禁止更新; 若为 boolean, 返回 false 禁止更新)
-- onBeforeDestroy
-- onDestroy
-- onActivated (显示)
-- onDeactivated (隐藏)
+- touchBeforeMount
+- touchMounted
+- touchUpdate (入参为 [props, nextProps];若返回返回 promise, 则在 fulfilled 状态进行数据更新, reject 禁止更新; 若为 boolean, 返回 false 禁止更新)
+- touchBeforeDestroy
+- touchDestroy
+- touchActivated (显示)
+- touchDeactivated (隐藏)
 
 2. hooks - 渲染器
 
-- onBeforeMount
-- onMounted
-- onUpdate
-- onBeforeDestroy
-- onDestroy
-- onActivated
-- onDeactivated
+- touchBeforeMount
+- touchMounted
+- touchUpdate
+- touchBeforeDestroy
+- touchDestroy
+- touchActivated
+- touchDeactivated
 
 3. subscribe - 订阅
 
@@ -116,9 +116,12 @@
 ```json
 {
   "element": {
-    "id": "**",
-    "name": "element-name",
-    "version": "1.0.0",
+    "open": true,
+    "application": {
+      "id": "**",
+      "name": "element-name",
+      "version": "1.0.0"
+    }
   }
 }
 ```
@@ -133,6 +136,7 @@
 > alpha/beta 版本可被覆盖以及删除
 > stable 版本一经上架, 不可删除以以及覆盖, 有问题可使用下一版本 compatible 机制进行修复
 > beta/stable 版本, 若存在数据变更, 需考虑使用 compatible
+> 可关闭插件对外启用(不可在插件市场搜索到, 已使用的仍可查看, 但不可编辑)
 
 ---
 

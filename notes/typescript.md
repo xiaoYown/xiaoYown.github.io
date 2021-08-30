@@ -267,3 +267,12 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
   return arg;
 }
 ```
+
+### 关键字
+[参考](https://juejin.cn/post/6918941117593419783)
+#### as
+
+as 关键字用来直接告诉编译器，把某个对象看做某个固定类型
+
+#### is
+
