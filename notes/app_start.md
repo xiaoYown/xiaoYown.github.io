@@ -1,12 +1,17 @@
 
-#### 项目管理
+#### 项目工程化
 
-- 项目所在目录: 必须为大小写区分分区(由于系统不同, 必须在非 windows 下跑过)
-- 开发规范, elint(使用 lint-stage 保证全员规范)
-- 提交规范, 语义化版本控制, cz-lerna-changelog(使用 husky 保证全员提交规范)
+- 硬盘作大小写区分分区
+- 编辑器配置 LF 换行(LF: "\n", Linefeed; CRLF: "\r\n", Carriage Return & Linefeed)
+- eslint 代码检验
+- prettier 代码美化
+- husky 提交校验
+- monorepo 项目模块拆分以及包管理
+- 提交规范 commitizen
+- changelog 生成, cz-lerna-changelog(使用 husky 保证全员提交规范)
 - 国际化
-- 文档生成
 - mock
+- 文档管理(有大版本区分)
 
 #### 必要准备
 
