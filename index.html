@@ -30,13 +30,13 @@
   <script>
     const gitalk = new Gitalk({
       clientID: '8e206fb0b3f982efe267',
-      clientSecret: ' 4225b5806421890ca194e95687ed4a58ab2a6530',
-      repo: 'git@github.com:xiaoYown/xiaoYown.github.io.git',
+      clientSecret: '4225b5806421890ca194e95687ed4a58ab2a6530',
+      repo: 'blog-comment',
       owner: 'xiaoYown',
       admin: ['xiaoYown'],
       // facebook-like distraction free mode
       distractionFreeMode: false,
-      id: decodeURI(window.location.pathname)
+      id: decodeURIComponent(window.location.hash)
     })
   </script>
 </body>
