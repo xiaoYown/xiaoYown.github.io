@@ -29,13 +29,14 @@
 
   <script>
     const gitalk = new Gitalk({
-      clientID: 'Github Application Client ID',
-      clientSecret: 'Github Application Client Secret',
-      repo: 'Github repo',
-      owner: 'Github repo owner',
-      admin: ['Github repo collaborators, only these guys can initialize github issues'],
+      clientID: '8e206fb0b3f982efe267',
+      clientSecret: ' 4225b5806421890ca194e95687ed4a58ab2a6530',
+      repo: 'git@github.com:xiaoYown/xiaoYown.github.io.git',
+      owner: 'xiaoYown',
+      admin: ['xiaoYown'],
       // facebook-like distraction free mode
-      distractionFreeMode: false
+      distractionFreeMode: false,
+      id: decodeURI(window.location.pathname)
     })
   </script>
 </body>
