@@ -9,7 +9,7 @@
 ### 1. 拉取指定分支到本地
 
 ```
-git clone -b branch_name folder_name 
+git clone -b branch_name folder_name
 ```
 
 ### 2. 同一分支开发提交 (无冲突)
@@ -158,4 +158,12 @@ git commit --amend
 # 历史提交合并
 git rebase -i HEAD~2
 git rebase --abort
+
+# 全局配置
+git config --global user.name "username"
+git config --global user.email "email@qq.com"
+
+# 当前仓库配置
+git config user.name "username"
+git config user.email "email@qq.com"
 ```

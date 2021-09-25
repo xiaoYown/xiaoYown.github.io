@@ -20,17 +20,18 @@
 - [codemirror](https://codemirror.net/) 文本编辑器
 - [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
 - [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint
+- [await-to-js](https://github.com/scopsy/await-to-js) 优雅处理 async await 异常
 
 ### node 交互工具
 
 - 交互输入: inquirer, enquirer, prompts
 - 输出美化: chalk, kleur, ink, figlet
 - 加载动画: ora
-- 基本解析: meow,  arg
+- 基本解析: meow, arg
 - 参数解析: commander, yargs
 - 操作命令行: sindresorhus/ansi-escapes
 - 输出截断: sindresorhus/cli-truncate
- 
+
 ### 工具
 
 - [cypress](https://www.cypress.io/) js 自动化测试工具
@@ -43,14 +44,14 @@
 - [promise](https://promisesaplus.com/) - promise 规则
 - [AST](https://astexplorer.net/) - 语法树
 - [RegExp](https://jex.im/regulex/) - 正则翻译
-- [获取IOS设备ID](https://www.pgyer.com/tools/udid) - 蒲公英获取设备唯一ID
+- [获取 IOS 设备 ID](https://www.pgyer.com/tools/udid) - 蒲公英获取设备唯一 ID
 - [vscode extention](https://code.visualstudio.com/api/get-started/your-first-extension) - vscode 插件
 - [git flow](https://github.com/nvie/gitflow)
 - [lerna commit](https://github.com/lerna/lerna/blob/514bc57a53/commands/version/README.md#--conventional-commits)
 - [贡献规范](https://github.com/all-contributors/all-contributors)
 - [codetop](https://codetop.cc/)
 - [web.dev](https://web.dev/)
-- [ecmascript新特性介绍](https://esnext.justjavac.com/)
+- [ecmascript 新特性介绍](https://esnext.justjavac.com/)
 
 ### 开源项目
 
