@@ -21,6 +21,7 @@
 - [monaco-editor](https://github.com/Microsoft/monaco-editor) 编辑器
 - [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint
 - [await-to-js](https://github.com/scopsy/await-to-js) 优雅处理 async await 异常
+- [react-loading](https://github.com/MrXujiang/react-loading) react 加载动画
 
 ### node 交互工具
 
@@ -37,6 +38,7 @@
 - [cypress](https://www.cypress.io/) js 自动化测试工具
 - [npm](https://www.npmjs.cn/misc/scripts/) npm 文档
 - [codesandbox](https://codesandbox.io) JS 线上沙箱环境
+- [cloc] git 代码量统计
 
 ### 内网穿透工具
 
@@ -62,6 +64,17 @@
 
 - [penpot](https://github.com/penpot/penpot) - 类似 figma 原型图工具
 - [Discus] PC+Mobile 开源设计
+- [VTracer](https://github.com/visioncortex/vtracer) - SVG 矢量图转换
+- [MrDoc](https://github.com/zmister2016/MrDoc) - 私有云文档在线部署
+- [Dev Lake](https://github.com/merico-dev/lake) - DevOps
+- [Spider Flow](https://github.com/ssssssss-team/spider-flow) - 零代码爬虫平台
+
+### 游戏引擎
+
+- [Ga](https://github.com/kittykatattack/ga)
+- [Kontra](https://github.com/straker/kontra)
+- [Piskel](https://github.com/piskelapp/piskel) - 简单易用的在线像素图像制作工具
+- [miniMusic](https://github.com/xem/miniMusic) - 游戏音效
 
 ### vpn
 
