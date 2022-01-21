@@ -1,11 +1,11 @@
-* [Home](/)
+- [Home](/)
 
-* 其他
-  * [web项目初始化](/notes/app_start)
-  * [版本管理](/notes/version_manage)
-  * [浏览器机制](/notes/browser_render)
-  * [svg2canvas](/notes/svg2canvas)
-  * [gitlab](/notes/gitlab)
-  * [git常用指令](/notes/git_command)
-  * [git submodule](/notes/git_submodule)
-  * [颜色打印](/notes/colors)
+- 笔记
+  - [web 项目初始化](/notes/app_start)
+  - [版本管理](/notes/version_manage)
+  - [浏览器机制](/notes/browser_render)
+  - [svg2canvas](/notes/svg2canvas)
+  - [gitlab](/notes/gitlab)
+  - [git 常用指令](/notes/git_command)
+  - [git submodule](/notes/git_submodule)
+  - [颜色打印](/notes/colors)
