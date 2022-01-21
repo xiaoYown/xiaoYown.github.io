@@ -7,6 +7,9 @@
   -webkit-touch-callout: none;
   box-sizing: border-box;
 }
+:root {
+  --theme-bg: #242424;
+}
 body:not(.ready) {
   overflow: hidden;
 }
@@ -589,7 +592,7 @@ section.cover blockquote > p > a:hover {
   color: var(--theme-color, #ea6f5a);
 }
 body {
-  background-color: #3f3f3f;
+  background-color: var(--theme-bg);
 }
 /* sidebar */
 .sidebar {
