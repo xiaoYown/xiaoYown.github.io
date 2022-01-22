@@ -6,8 +6,8 @@
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
 - [classnames] - 格式化标签 class 属性值
-- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流, 防抖 [demo](/usual/demo[throttle-debounce])
-- [crypto-js] - 加密|解密 [demo](/usual/demo[crypto-js])
+- [throttle-debounce](https://github.com/niksy/throttle-debounce) - 节流, 防抖 [demo](/collect/demo[throttle-debounce])
+- [crypto-js] - 加密|解密 [demo](/collect/demo[crypto-js])
 - [amfe-flexible|rem-flexible] - 移动端布局方案(新的 lib-flexible)
 - [postcss-any2rem] - 任意单位转换 rem
 - [amr-js](https://www.npmjs.com/package/amr-js) audio 解码
@@ -33,18 +33,6 @@
 - 操作命令行: sindresorhus/ansi-escapes
 - 输出截断: sindresorhus/cli-truncate
 
-### 工具
-
-- [cypress](https://www.cypress.io/) js 自动化测试工具
-- [npm](https://www.npmjs.cn/misc/scripts/) npm 文档
-- [codesandbox](https://codesandbox.io) JS 线上沙箱环境
-- [cloc] git 代码量统计
-
-### 内网穿透工具
-
-- [frp]
-- [ngrok] ittun、sunny 和 natapp
-
 ### 资料
 
 - [babel](https://www.babeljs.cn/)
@@ -59,33 +47,3 @@
 - [codetop](https://codetop.cc/)
 - [web.dev](https://web.dev/)
 - [ecmascript 新特性介绍](https://esnext.justjavac.com/)
-
-### 开源项目
-
-- [penpot](https://github.com/penpot/penpot) - 类似 figma 原型图工具
-- [Discus] PC+Mobile 开源设计
-- [VTracer](https://github.com/visioncortex/vtracer) - SVG 矢量图转换
-- [MrDoc](https://github.com/zmister2016/MrDoc) - 私有云文档在线部署
-- [Dev Lake](https://github.com/merico-dev/lake) - DevOps
-- [Spider Flow](https://github.com/ssssssss-team/spider-flow) - 零代码爬虫平台
-
-### 游戏引擎
-
-- [Ga](https://github.com/kittykatattack/ga)
-- [Kontra](https://github.com/straker/kontra)
-- [Piskel](https://github.com/piskelapp/piskel) - 简单易用的在线像素图像制作工具
-- [miniMusic](https://github.com/xem/miniMusic) - 游戏音效
-
-### vpn
-
-- [cylink](https://cylink.me/) - 18RMB/月
-
-### 文档工具
-
-- [docsify] 静态 markdown 文档
-- [Dumi] 文档站点生成工具, 专为组件开发场景而生
-- [degit] 拉取仓库模板
-
-### 设计相关
-
-- [One Nav] 导航设计
