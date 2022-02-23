@@ -6,3 +6,5 @@
 - [MrDoc](https://github.com/zmister2016/MrDoc) - 私有云文档在线部署
 - [Dev Lake](https://github.com/merico-dev/lake) - DevOps
 - [Spider Flow](https://github.com/ssssssss-team/spider-flow) - 零代码爬虫平台
+- [js-sequence-diagrams](https://github.com/bramp/js-sequence-diagrams/) 时序图
+- [mermaid-live-editor](https://github.com/mermaid-js/mermaid) 时序图

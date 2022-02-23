@@ -2,8 +2,9 @@
 
 - 笔记
   - [常用开源协议](/notes/license_introduce)
-  - [web 项目初始化](/notes/app_start)
+  - [设计模式](/notes/design_patterns)
   - [版本管理](/notes/version_manage)
+  - [web 项目初始化](/notes/app_start)
   - [浏览器机制](/notes/browser_render)
   - [svg2canvas](/notes/svg2canvas)
   - [gitlab](/notes/gitlab)
