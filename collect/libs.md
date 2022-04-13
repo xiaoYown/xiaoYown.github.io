@@ -22,6 +22,9 @@
 - [eslint-plugin-react-hooks/exhaustive-deps](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks) react hooks lint
 - [await-to-js](https://github.com/scopsy/await-to-js) 优雅处理 async await 异常
 - [react-loading](https://github.com/MrXujiang/react-loading) react 加载动画
+- [degit](https://github.com/Rich-Harris/degit) 仓库模板下载
+- [jszip](https://www.npmjs.com/package/jszip) zip 压缩
+- [extract-zip](https://www.npmjs.com/package/extract-zip) zip 解压
 
 ### node 交互工具
 

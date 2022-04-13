@@ -15,3 +15,4 @@ https://rustcc.cn/
 ### 一些连接收藏
 
 - [2020 rust china conf](https://rustcc.cn/2020rustchinaconf/schedule.html)
+- [依赖仓库](https://crates.io/)

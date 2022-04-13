@@ -1,1 +1,2 @@
 - [时序图规范](https://en.wikipedia.org/wiki/Sequence_diagram)
+- [时序图语法](https://plantuml.com/zh/sequence-diagram#5d2ed256d73a7298)
