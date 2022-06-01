@@ -25,6 +25,7 @@
 - [degit](https://github.com/Rich-Harris/degit) 仓库模板下载
 - [jszip](https://www.npmjs.com/package/jszip) zip 压缩
 - [extract-zip](https://www.npmjs.com/package/extract-zip) zip 解压
+- [fp-ts](https://www.npmjs.com/package/fp-ts)
 
 ### node 交互工具
 

@@ -7,6 +7,13 @@ npm2 的依赖管理
 
 npm2 安装依赖的时候比较简单直接，直接按照包依赖的树形结构下载填充本地目录结构。
 
+```
+$ pm2 startup                   # Detect init system, generate and configure pm2 boot on startup
+$ pm2 save                      # Save current process list
+$ pm2 resurrect                 # Restore previously saved processes
+$ pm2 unstartup                 # Disable and remove startup system
+```
+
 比如在项目中 A 和 C 都依赖 B，无论被依赖的 B 是否是同一个版本，都会直接无脑的生成对应的树结构，比如我们现在有下面的依赖：
 
 A@2.0.0：BaseA@1.0.0 BaseB@2.0.0

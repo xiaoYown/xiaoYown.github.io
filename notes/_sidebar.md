@@ -10,4 +10,4 @@
   - [gitlab](/notes/gitlab)
   - [git 常用指令](/notes/git_command)
   - [git submodule](/notes/git_submodule)
-  - [颜色打印](/notes/colors)
+  - [docker 简单使用](/notes/docker)

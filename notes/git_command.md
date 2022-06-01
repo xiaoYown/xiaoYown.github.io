@@ -166,4 +166,8 @@ git config --global user.email "email@qq.com"
 # 当前仓库配置
 git config user.name "username"
 git config user.email "email@qq.com"
+
+# 重置代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
 ```

@@ -449,8 +449,7 @@ root 26 13 0 16:14 pts/1 00:00:00 ps -ef
 
 说明
 
--p hostPort:containerPort  
-
+-p hostPort:containerPort
 
 端口映射 -p 8080:80
 
@@ -458,8 +457,7 @@ root 26 13 0 16:14 pts/1 00:00:00 ps -ef
 
 配置监听地址 -p 10.0.0.100:8080:80
 
--p ip::containerPort  
-
+-p ip::containerPort
 
 随机分配端口 -p 10.0.0.100::80
 
@@ -467,8 +465,7 @@ root 26 13 0 16:14 pts/1 00:00:00 ps -ef
 
 指定协议 -p 8080:80:tcp
 
--p 81:80 –p 443:443  
-
+-p 81:80 –p 443:443
 
 指定多个
 

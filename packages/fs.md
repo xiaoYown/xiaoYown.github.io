@@ -1,3 +1,5 @@
+### 目录/文件判断
+
 ```ts
 import { statSync } from "fs";
 
