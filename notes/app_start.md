@@ -30,6 +30,14 @@
 - 尽量避免弹窗展示处理结果(体验不佳)
 - 接口请求测试页面(保证所有接口返回 200, 处理结果不为协议报错)
 - 高频触发交互根据需求使用 防抖/节流
+- 有需求情形使用 Accessibility 无障碍(https://www.w3.org/WAI/ARIA/apg/)
+
+#### 无障碍(有条件则做)
+
+> 关心可访问性表露出良好的道德品质，它提升了你的公众形象
+
+- https://www.w3.org/WAI/ARIA/apg/
+- https://developer.mozilla.org/zh-CN/docs/Learn/Accessibility/
 
 #### 特殊准备:
 

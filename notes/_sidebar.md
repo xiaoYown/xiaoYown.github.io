@@ -2,12 +2,13 @@
 
 - 笔记
   - [常用开源协议](/notes/license_introduce)
+  - [浏览器机制](/notes/browser/render)
   - [设计模式](/notes/design_patterns)
   - [版本管理](/notes/version_manage)
   - [web 项目初始化](/notes/app_start)
-  - [浏览器机制](/notes/browser_render)
   - [svg2canvas](/notes/svg2canvas)
   - [gitlab](/notes/gitlab)
   - [git 常用指令](/notes/git_command)
   - [git submodule](/notes/git_submodule)
   - [docker 简单使用](/notes/docker)
+  - [lighthouse](/notes/lighthouse)
