@@ -2,7 +2,7 @@
 
 - 笔记
   - [常用开源协议](/notes/license_introduce)
-  - [浏览器机制](/notes/browser/render)
+  - [浏览器相关](/notes/browser/render)
   - [设计模式](/notes/design_patterns)
   - [版本管理](/notes/version_manage)
   - [web 项目初始化](/notes/app_start)
