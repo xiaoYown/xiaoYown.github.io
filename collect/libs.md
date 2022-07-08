@@ -26,6 +26,7 @@
 - [jszip](https://www.npmjs.com/package/jszip) zip 压缩
 - [extract-zip](https://www.npmjs.com/package/extract-zip) zip 解压
 - [fp-ts](https://www.npmjs.com/package/fp-ts)
+- [del](https://github.com/sindresorhus/del) 删除 文件/目录
 
 ### node 交互工具
 

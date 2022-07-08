@@ -8,3 +8,4 @@
 - [Spider Flow](https://github.com/ssssssss-team/spider-flow) - 零代码爬虫平台
 - [js-sequence-diagrams](https://github.com/bramp/js-sequence-diagrams/) 时序图
 - [mermaid-live-editor](https://github.com/mermaid-js/mermaid) 时序图
+- [Lexical](https://github.com/facebook/lexical) 客服文本编辑器
