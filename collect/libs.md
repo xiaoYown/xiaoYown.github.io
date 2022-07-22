@@ -27,11 +27,13 @@
 - [extract-zip](https://www.npmjs.com/package/extract-zip) zip 解压
 - [fp-ts](https://www.npmjs.com/package/fp-ts)
 - [del](https://github.com/sindresorhus/del) 删除 文件/目录
+- [RxJS](https://rxjs.dev/) 异步编程的应用库
 
 ### node 交互工具
 
 - 交互输入: inquirer, enquirer, prompts
-- 输出美化: chalk, kleur, ink, figlet
+- 输出美化: chalk, kleur, ink, figlet, boxen
+-
 - 加载动画: ora
 - 基本解析: meow, arg
 - 参数解析: commander, yargs
