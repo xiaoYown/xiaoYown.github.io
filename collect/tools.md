@@ -5,6 +5,7 @@
 - [codesandbox](https://codesandbox.io) JS 线上沙箱环境
 - [cloc] git 代码量统计
 - [guetzli](https://github.com/google/guetzli) 图片压缩
+- [signoz](https://signoz.io/docs/tutorial/kubernetes-infra-metrics/) APM
 - [badges](https://github.com/boennemann/badges) 自述文件徽章
   Version Badge
   [![NPM version](https://badge.fury.io/js/badge-list.svg)](http://badge.fury.io/js/badge-list)

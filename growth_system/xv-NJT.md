@@ -112,8 +112,12 @@
 - touchUpdate (入参为 [props, nextProps];若返回返回 promise, 则在 fulfilled 状态进行数据更新, reject 禁止更新; 若为 boolean, 返回 false 禁止更新)
 - touchBeforeDestroy
 - touchDestroy
-- touchActivated (显示)
-- touchDeactivated (隐藏)
+- touchActivated (激活)
+- touchDeactivated (失活)
+- touchShow (显示)
+- touchHide (隐藏)
+- touchBeforeDelete(删除前处理, 可做阻止)
+- touchAfterDeleted(删除成功处理)
 
 2. hooks - 播放器
 
@@ -122,8 +126,8 @@
 - touchUpdate
 - touchBeforeDestroy
 - touchDestroy
-- touchActivated
-- touchDeactivated
+- touchActivated (激活)
+- touchDeactivated (失活)
 - touchAnimationInActive
 - touchAnimationInEnd
 - touchAnimationOutActive
@@ -213,6 +217,8 @@
 #### 10.1 用户操作埋点
 
 #### 10.2 功能异常埋点
+
+#### 10.3 客户端操作日志(异常上报)
 
 ...
 

@@ -1,0 +1,15 @@
+- [Home](/)
+
+- 笔记
+  - [常用开源协议](/notes/license_introduce)
+  - [浏览器相关](/notes/browser/render)
+  - [设计模式](/notes/design_patterns)
+  - [版本管理](/notes/version_manage)
+  - [异步处理方案比较](/notes/async_scheme)
+  - [web 项目初始化](/notes/app_start)
+  - [svg2canvas](/notes/svg2canvas)
+  - [gitlab](/notes/gitlab)
+  - [git 常用指令](/notes/git_command)
+  - [git submodule](/notes/git_submodule)
+  - [docker 简单使用](/notes/docker)
+  - [lighthouse](/notes/lighthouse)
