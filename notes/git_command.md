@@ -170,4 +170,7 @@ git config user.email "email@qq.com"
 # 重置代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy
+
+# 更新远程服务指纹
+ssh-keygen -R xx.xx.xx.xx
 ```
