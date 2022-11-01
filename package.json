@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xiaoYown/notes.git"
+    "url": "git+https://github.com/xiaoYown/xiaoYown.github.io"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xiaoYown/notes/issues"
+    "url": "https://github.com/xiaoYown/xiaoYown.github.io/issues"
   },
-  "homepage": "https://github.com/xiaoYown/notes#readme"
+  "homepage": "https://github.com/xiaoYown/xiaoYown.github.io#readme"
 }
