@@ -41,7 +41,7 @@ $ docker container ls     # 等价于下面这个命令
 $ docker ps
 
 # 新建并启动容器
-$ docker run [option] [容器名] 
+$ docker run [option] [容器名]
 
 # 启动容器
 $ docker start [容器ID]/[容器Names]
@@ -82,23 +82,23 @@ $ docker container update --restart=always [容器名字]
 
 ```yml
 # 创建容器
-docker run -d --name nginx_xv -p 82:80 --privileged=true nginx
+docker run -d --name nginx -p 80:80 --privileged=true nginx
 # 复制配置文件以及数据目录
-docker cp nginx_xv:/etc/nginx ./nginx
-docker cp nginx_xv:/var/log/nginx ./nginx_logs
-docker cp nginx_xv:/usr/share/nginx/html ./html
+docker cp nginx:/etc/nginx ./nginx
+docker cp nginx:/var/log/nginx ./nginx_logs
+docker cp nginx:/usr/share/nginx/html ./html
 # 移除容器
 docker rm -f <container_name>
 # 使用 docker-compose 启动容器
 docker-compose up -d
 
 # docker-compose
-version: '0'
+version: '3'
 services:
   mysql:
-    image: mysql
+    image: nginx
     ports:
-      - "82:80"
+      - "80:80"
     volumes:
       - ./nginx:/etc/nginx
       - ./nginx_logs:/var/log/nginx
@@ -106,7 +106,7 @@ services:
     networks:
       - backend
     restart: always
-    container_name: mysql_xv
+    container_name: nginx_xv
 networks:
   frontend:
   backend:
@@ -152,12 +152,12 @@ networks:
   backend:
 ```
 
-#### 进入docker目录
+#### 进入 docker 目录
 
 ```
 执行这段代码进入 vm
 screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty
- 
+
 然后你就可以进入docker的目录了
 cd /var/lib/docker
 ```
