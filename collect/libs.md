@@ -28,6 +28,7 @@
 - [fp-ts](https://www.npmjs.com/package/fp-ts)
 - [del](https://github.com/sindresorhus/del) 删除 文件/目录
 - [RxJS](https://rxjs.dev/) 异步编程的应用库
+- [cheerio](https://cheerio.js.org/) The fast, flexible & elegant library for parsing and manipulating HTML and XML.
 
 ### node 交互工具
 
