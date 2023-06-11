@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Document</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="Description" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <link rel="stylesheet" href="/resource/docsify/themes/dark.css" />
-    <link rel="stylesheet" href="/resource/gitalk/gitalk.css" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script>
-      window.$docsify = {
-        name: "笔记",
-        coverpage: true,
-        basePath: "/",
-        repo: "https://github.com/xiaoYown",
-        loadSidebar: true,
-        subMaxLevel: 3,
-      };
-    </script>
 
-    <script src="/resource/docsify@4/docsify.min.js"></script>
-    <script src="/resource/docsify/lib/plugins/search.min.js"></script>
-    <script src="/resource/prism/typescript.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <title>xiaoYown - 一个只想躺平的咸鱼</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="生活的理想,就是为了逃离拥挤的城市" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="/resource/docsify/themes/dark.css" />
+  <link rel="stylesheet" href="/resource/gitalk/gitalk.css" />
+</head>
 
-    <script src="/resource/docsify/lib/plugins/gitalk.min.js"></script>
-    <script src="/resource/gitalk/gitalk.min.js"></script>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: "笔记",
+      coverpage: true,
+      basePath: "/",
+      repo: "https://github.com/xiaoYown",
+      loadSidebar: true,
+      subMaxLevel: 3,
+    };
+  </script>
 
-    <script>
-      function getHashValueWithoutSearch() {
-        return window.location.hash.replace(/\?.+$/, "");
-      }
+  <script src="/resource/docsify@4/docsify.min.js"></script>
+  <script src="/resource/docsify/lib/plugins/search.min.js"></script>
+  <script src="/resource/prism/typescript.min.js"></script>
 
-      var cacheHash = getHashValueWithoutSearch();
+  <script src="/resource/docsify/lib/plugins/gitalk.min.js"></script>
+  <script src="/resource/gitalk/gitalk.min.js"></script>
 
-      function initialGitalk() {
-        cacheHash = getHashValueWithoutSearch();
+  <script>
+    function getHashValueWithoutSearch() {
+      return window.location.hash.replace(/\?.+$/, "");
+    }
 
-        gitalk = new Gitalk({
-          clientID: "8e206fb0b3f982efe267",
-          clientSecret: "4225b5806421890ca194e95687ed4a58ab2a6530",
-          repo: "blog-comment",
-          owner: "xiaoYown",
-          admin: ["xiaoYown"],
-          // facebook-like distraction free mode
-          distractionFreeMode: false,
-          id: getHashValueWithoutSearch(),
-        });
-      }
+    var cacheHash = getHashValueWithoutSearch();
 
-      initialGitalk();
+    function initialGitalk() {
+      cacheHash = getHashValueWithoutSearch();
 
-      window.addEventListener("hashchange", function () {
-        if (cacheHash === getHashValueWithoutSearch()) return;
-        initialGitalk();
+      gitalk = new Gitalk({
+        clientID: "8e206fb0b3f982efe267",
+        clientSecret: "4225b5806421890ca194e95687ed4a58ab2a6530",
+        repo: "blog-comment",
+        owner: "xiaoYown",
+        admin: ["xiaoYown"],
+        // facebook-like distraction free mode
+        distractionFreeMode: false,
+        id: getHashValueWithoutSearch(),
       });
-    </script>
-  </body>
+    }
+
+    initialGitalk();
+
+    window.addEventListener("hashchange", function () {
+      if (cacheHash === getHashValueWithoutSearch()) return;
+      initialGitalk();
+    });
+  </script>
+</body>
+
 </html>
