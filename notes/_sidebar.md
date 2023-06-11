@@ -13,3 +13,4 @@
   - [git submodule](/notes/git_submodule)
   - [docker 简单使用](/notes/docker)
   - [lighthouse](/notes/lighthouse)
+  - [字体探索](/notes/font-explore)
