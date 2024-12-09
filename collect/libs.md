@@ -2,7 +2,7 @@
 
 - [axios] - 请求库
 - [moment] - 时间格式化库
-- [dayjs](https://dayjs.gitee.io/zh-CN) - 时间格式化库(轻量的处理时间和日期的 JavaScript 库，和 Moment.js 的 API 设计保持完全一样)
+- [dayjs](https://dayjs.gitee.io/zh-CN) - 时间格式化库(轻量的处理时间和日期的 JavaScript 库, 和 Moment.js 的 API 设计保持完全一样)
 - [bignumber.js] - 数字处理库
 - [path-to-regexp] - 路径转正则库
 - [classnames] - 格式化标签 class 属性值
@@ -28,7 +28,8 @@
 - [fp-ts](https://www.npmjs.com/package/fp-ts)
 - [del](https://github.com/sindresorhus/del) 删除 文件/目录
 - [RxJS](https://rxjs.dev/) 异步编程的应用库
-- [cheerio](https://cheerio.js.org/) The fast, flexible & elegant library for parsing and manipulating HTML and XML.
+- [cheerio](https://cheerio.js.org/) 提供一个类似 jQuery 的 API, 允许你以简洁、直观的方式处理和查询 HTML 或 XML 文档结构, 允许你在服务器端解析 HTML 文件, 并使用类似 jQuery 的方法来操作 DOM 元素
+- [chokidar] 非常高效和易用的 文件系统监视库
 
 ### node 交互工具
 
@@ -40,6 +41,13 @@
 - 参数解析: commander, yargs
 - 操作命令行: sindresorhus/ansi-escapes
 - 输出截断: sindresorhus/cli-truncate
+- 终端超链接: terminal-link
+- 表格输出: console.table
+- 进度条: progress
+- 清除终端内容: clear
+- 时间: pretty-hrtime
+- 实时更新日志: log-update
+- 符号和图标: figures
 
 ### 资料
 

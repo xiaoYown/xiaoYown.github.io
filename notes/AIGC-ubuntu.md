@@ -52,3 +52,5 @@ nvidia-smi -L
 sudo apt-get install aptitude
 sudo aptitude install package name
 ```
+
+export https_proxy=http://192.168.50.41:7890 http_proxy=http://192.168.50.41:7890 all_proxy=socks5://192.168.50.41:7890

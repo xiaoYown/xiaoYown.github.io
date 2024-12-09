@@ -60,6 +60,17 @@
 
 ### 1.8 提示词简单入门
 
+#### 提示词魔咒
+
+正向提示词:
+```
+(masterpiece: 1,2), best quality, masterpiece, highres, original, extremely detailed wallpaper, perfect lighting. (extremely detailed CG:1.2), drawing, paintbrush,
+```
+
+反向提示词:
+```
+NSFW, (worst quality:2), (low quality:2), (normal quality:2), lowres, normal quality, ((monochrome)). ((grayscale)), skin spots, acnes, skin blemishes, age spot, (ugly:1.331), (duplicate:1.331), (morbid:1.21), (mutilated:1.21), (tranny:1.331), mutated hands, (poorly drawn hands:1.5), blurry, (bad anatomy:1.21), (bad proportions:1.331), extra limbs, (disfigured:1.331), (missing arms:1.331), (extra legs:1.331), (fused fingers:1.61051), (too many fingers:1.61051), (unclear eyes:1.331), lowers, bad hands, missing fingers, extra digit,bad hands, missing fingers, ((extra arms and legs))),
+```
 ### 1.9 采样方法
 
 > 带 + 号的为改进过的算法, 内容生成更为稳定
@@ -68,15 +79,26 @@
 - DPM 2M/2M Karras - 速度快
 - SDE Karras - 细节丰富
 
-## models
+## 2. models
 
-### 风格记录
+### 2.1 checkpoint
 
-- AbyssOrangeMix 二次元风 - 深渊橘
-- GhostMix (动漫, 照片真实感, 女性, 艺术风格, 游戏角色)
+### 2.2 lora
+
+### 2.3 embedding
+
+### 2.4 hypernetwork
+
+## 3. extensions
+
+### 3.1 必装扩展
+
+### 3.2 推荐扩展
 
 ### 抄作业
 
 [Stable Diffusion 的 AIGC 社区](https://civitai.com/)
 [arthub](https://arthub.ai/)
 [mage](https://www.mage.space/explore)
+
+
