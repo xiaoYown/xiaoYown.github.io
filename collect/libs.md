@@ -30,6 +30,7 @@
 - [RxJS](https://rxjs.dev/) 异步编程的应用库
 - [cheerio](https://cheerio.js.org/) 提供一个类似 jQuery 的 API, 允许你以简洁、直观的方式处理和查询 HTML 或 XML 文档结构, 允许你在服务器端解析 HTML 文件, 并使用类似 jQuery 的方法来操作 DOM 元素
 - [chokidar] 非常高效和易用的 文件系统监视库
+- [plasmo](https://docs.plasmo.com/) chrome extension framework
 
 ### node 交互工具
 

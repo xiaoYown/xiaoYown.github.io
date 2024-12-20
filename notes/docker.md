@@ -84,9 +84,9 @@ $ docker container update --restart=always [容器名字]
 # 创建容器
 docker run -d --name nginx -p 80:80 --privileged=true nginx
 # 复制配置文件以及数据目录
-docker cp nginx:/etc/nginx ./nginx
+transformers-pytorch-cpu_redis_1 nginx:/etc/nginx ./
+docker cp nginx:/usr/share/nginx/html ./
 docker cp nginx:/var/log/nginx ./nginx_logs
-docker cp nginx:/usr/share/nginx/html ./html
 # 移除容器
 docker rm -f <container_name>
 # 使用 docker-compose 启动容器
