@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Command Generator</title>
+</head>
+<body>
+    <h1>NLP Command Generator</h1>
+    <form id="nlpForm">
+        <label for="inputText">输入自然语言指令:</label><br>
+        <textarea id="inputText" rows="4" cols="50" placeholder="例如：创建文件 内容：我的新文件"></textarea><br><br>
+        <button type="submit">生成指令</button>
+    </form>
+    <h2>生成的指令:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('nlpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const inputText = document.getElementById('inputText').value;
+            if (!inputText) {
+                alert("请输入自然语言指令！");
+                return;
+            }
+
+            // 调用后端服务
+            const response = await fetch('/parse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input_text: inputText }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('output').innerText = data.command;
+            } else {
+                const error = await response.json();
+                document.getElementById('output').innerText = `Error: ${error.error}`;
+            }
+        });
+    </script>
+</body>
+</html>
