@@ -176,3 +176,32 @@ docker pull node:14.15.1-slim
 # 创建容器
 docker run -d -p 3000:3000 --name easy_format_xv node:14.15.1-slim node -e "require('http').createServer((req, res) => res.end('Hello World')).listen(3030)"
 ```
+
+### 创建本地仓库
+
+```docker-compose.yml
+version: "3"
+services:
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/var/lib/registry
+```
+
+允许 http
+```daemon.json
+{
+  "insecure-registries": ["192.168.50.41:5000"]
+}
+```
+
+1. 标记仓库镜像地址:
+docker tag verdaccio/verdaccio 192.168.50.41:5000/verdaccio/verdaccio:latest
+
+2. 推送仓库
+docker push 192.168.50.41:5000/verdaccio/verdaccio:latest
+
+3. 拉去镜像
+docker pull 192.168.50.41:5000/verdaccio/verdaccio:latest
