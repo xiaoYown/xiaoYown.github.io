@@ -48,3 +48,44 @@ If-None-Match: 请求头，缓存资源标识，由浏览器告诉服务器。
 
 1. 正如上面所说 "SSL 证书需要绑定 IP，不能再同一个 IP 上绑定多个域名", 在做前端应用时, 为了保证项目的可移植性, 要善于利用路由设计应用整体
 2. 处理跨域时, 需要快速定位产生跨域的原因, 并制定解决方案. JSONP/CORS 服务配置安全域名/\<iframe + windows.postMessage\>
+
+### 开发环境配置 SSL 证书
+
+#### 创建证书和私钥
+
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx-selfsigned.key -out /usr/local/etc/nginx/ssl/nginx-selfsigned.crt
+```
+
+- keyout：私钥保存路径（如 /usr/local/etc/nginx/ssl/nginx-selfsigned.key）。
+- out：证书保存路径（如 /usr/local/etc/nginx/ssl/nginx-selfsigned.crt）。
+- days 365：证书有效期（1 年）。
+- newkey rsa:2048：生成 2048 位的 RSA 密钥。
+
+#### nginx 配置
+
+```bash
+# 配置 https
+server {
+    listen 443 ssl;
+    server_name localhost;  # 替换为你的域名或 IP
+
+    ssl_certificate /usr/local/etc/nginx/ssl/nginx-selfsigned.crt;
+    ssl_certificate_key /usr/local/etc/nginx/ssl/nginx-selfsigned.key;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        root /usr/local/var/www;  # 替换为你的网站根目录
+        index index.html index.htm;
+    }
+}
+# 重定向
+server {
+    listen 80;
+    server_name localhost;  # 替换为你的域名或 IP
+
+    return 301 https://$host$request_uri;
+}
+```
