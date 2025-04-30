@@ -31,3 +31,4 @@
 ### 调试工具
 
 - [devtools-pro] 移动端调试工具
+- [devtools-remote-debugger](https://github.com/Nice-PLQ/devtools-remote-debugger.git)
