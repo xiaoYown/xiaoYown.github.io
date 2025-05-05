@@ -19,6 +19,7 @@ killall Dock
 - Snipaste
 - ClashX
 - OmniDiskSweeper
+- superwhisper
 
 ## 开发软件列表
 
