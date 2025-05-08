@@ -1,0 +1,24 @@
+{
+  "name": "performance-collection",
+  "version": "1.0.0",
+  "description": "使用 Playwright 收集性能指标",
+
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test:server": "node test/server.js",
+    "collect": "npm run test:server & sleep 2 && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.10.5",
+    "playwright": "^1.40.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17"
+  }
+}
