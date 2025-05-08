@@ -1,0 +1,15 @@
+[tasks.dev]
+description = "Development with hot reloading"
+install_crate = { crate_name = "cargo-watch" }
+command = "cargo"
+args = ["watch", "-w", "src", "-w", "Cargo.toml", "-x", "run"]
+
+[tasks.build]
+description = "Build the application"
+command = "cargo"
+args = ["build"]
+
+[tasks.run]
+description = "Run the application"
+command = "cargo"
+args = ["run"] 

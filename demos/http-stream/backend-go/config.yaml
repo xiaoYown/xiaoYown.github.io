@@ -1,0 +1,22 @@
+server:
+  port: 3000
+
+paths:
+  frontend: "../frontend"
+  cert: "../../cert"
+  cache: "../.cache"
+  cache_file: "uploaded_text.txt"
+  sample_text: "uploaded_text.txt"
+
+stream:
+  chunk_size: 10
+  interval: 50ms
+
+mime_types:
+  .html: "text/html"
+  .js: "text/javascript"
+  .css: "text/css"
+  .json: "application/json"
+  .png: "image/png"
+  .jpg: "image/jpeg"
+  .gif: "image/gif" 
