@@ -31,6 +31,7 @@ killall Dock
 - Postman
 - Proxyman
 - Chat2DB
+- medis
 
 ## IDE
 
