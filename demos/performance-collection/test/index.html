@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>性能测试页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+    }
+
+    #btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 20px;
+      cursor: pointer;
+    }
+
+    #canvas {
+      border: 1px solid #ccc;
+      margin: 20px auto;
+    }
+
+    .memory-leak {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>性能测试页面</h1>
+  
+  <button id="btn">点击生成内存占用</button>
+  <canvas id="canvas" width="600" height="400"></canvas>
+
+  <script>
+    // 模拟内存泄漏的数组
+    let leakedArray = [];
+
+    // 按钮点击事件
+    document.getElementById('btn').addEventListener('click', () => {
+      // 创建大量DOM节点
+      for (let i = 0; i < 1000; i++) {
+        const div = document.createElement('div');
+        div.className = 'memory-leak';
+        div.textContent = `Memory Leak Item ${i}`;
+        document.body.appendChild(div);
+
+        // 添加事件监听器
+        div.addEventListener('click', () => {});
+        div.addEventListener('mouseover', () => {});
+        div.addEventListener('mouseout', () => {});
+      }
+
+      // 向数组中添加大对象
+      leakedArray.push(new Array(10000).fill('memory leak'));
+    });
+
+    // Canvas 动画
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let animationFrame;
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 绘制随机图形
+      for (let i = 0; i < 100; i++) {
+        ctx.beginPath();
+        ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
+        ctx.arc(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height,
+          Math.random() * 20,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+      }
+
+      animationFrame = requestAnimationFrame(animate);
+    }
+
+    canvas.addEventListener('click', () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      } else {
+        animate();
+      }
+    });
+  </script>
+</body>
+</html>
