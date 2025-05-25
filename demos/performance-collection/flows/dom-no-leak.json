@@ -1,0 +1,39 @@
+{
+  "name": "DOM 无内存泄漏测试",
+  "url": "http://localhost:3000",
+  "polling": 2,
+  "steps": [
+    {
+      "trigger": "flow:wait",
+      "duration": 500
+    },
+    {
+      "trigger": "devtools:collect-garbage"
+    },
+    {
+      "trigger": "devtools:collect-performance"
+    },
+    {
+      "trigger": "dom:click",
+      "selector": "button:has-text('新增节点')"
+    },
+    {
+      "trigger": "flow:wait",
+      "duration": 500
+    },
+    {
+      "trigger": "dom:click",
+      "selector": "button:has-text('清空节点(无泄露)')"
+    },
+    {
+      "trigger": "devtools:collect-garbage"
+    },
+    {
+      "trigger": "flow:wait",
+      "duration": 500
+    },
+    {
+      "trigger": "devtools:collect-performance"
+    }
+  ]
+} 

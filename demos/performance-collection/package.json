@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test:server": "node test/server.js",
-    "collect": "npm run test:server & sleep 2 && npm start"
+    "service": "node test/server.js",
+    "collect": "sleep 2 && npm start"
   },
   "keywords": [],
   "author": "",

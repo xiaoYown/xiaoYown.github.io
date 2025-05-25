@@ -1,95 +1,134 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>性能测试页面</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      text-align: center;
-    }
-
-    #btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 20px;
-      cursor: pointer;
-    }
-
-    #canvas {
-      border: 1px solid #ccc;
-      margin: 20px auto;
-    }
-
-    .memory-leak {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>性能测试示例</title>
+    <style>
+        .container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            margin: 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        #node-container, #var-container {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+        }
+    </style>
 </head>
 <body>
-  <h1>性能测试页面</h1>
-  
-  <button id="btn">点击生成内存占用</button>
-  <canvas id="canvas" width="600" height="400"></canvas>
+    <div class="container">
+        <h2>示例1：DOM节点内存泄露测试</h2>
+        <button class="btn" onclick="addNodes()">新增节点</button>
+        <button class="btn" onclick="clearNodesWithLeak()">清空节点(有泄露)</button>
+        <button class="btn" onclick="clearNodesWithoutLeak()">清空节点(无泄露)</button>
+        <div id="node-container"></div>
+    </div>
 
-  <script>
-    // 模拟内存泄漏的数组
-    let leakedArray = [];
+    <div class="container">
+        <h2>示例2：变量缓存内存泄露测试</h2>
+        <button class="btn" onclick="addCache()">新增变量缓存</button>
+        <button class="btn" onclick="clearCacheWithLeak()">清空缓存(有泄露)</button>
+        <button class="btn" onclick="clearCacheWithoutLeak()">清空缓存(无泄露)</button>
+        <div id="var-container"></div>
+    </div>
 
-    // 按钮点击事件
-    document.getElementById('btn').addEventListener('click', () => {
-      // 创建大量DOM节点
-      for (let i = 0; i < 1000; i++) {
-        const div = document.createElement('div');
-        div.className = 'memory-leak';
-        div.textContent = `Memory Leak Item ${i}`;
-        document.body.appendChild(div);
+    <script>
+        // 示例1：DOM节点相关变量
+        let nodeList = [];
+        let eventListeners = [];
+        
+        // 添加节点
+        function addNodes() {
+            for (let i = 0; i < 100; i++) {
+                const div = document.createElement('div');
+                div.textContent = `节点 ${i}`;
+                div.style.margin = '5px';
+                div.style.padding = '5px';
+                div.style.border = '1px solid #ddd';
+                
+                const handler = () => {
+                    console.log(`点击了节点 ${i}`);
+                };
+                div.addEventListener('click', handler);
+                eventListeners.push({ element: div, handler });
+                
+                document.getElementById('node-container').appendChild(div);
+                nodeList.push(div);
+            }
+        }
 
-        // 添加事件监听器
-        div.addEventListener('click', () => {});
-        div.addEventListener('mouseover', () => {});
-        div.addEventListener('mouseout', () => {});
-      }
+        // 清空节点（有内存泄露）
+        function clearNodesWithLeak() {
+            const container = document.getElementById('node-container');
+            container.innerHTML = '';
+            // 这里没有正确移除事件监听器，会造成内存泄露
+            nodeList = [];
+        }
 
-      // 向数组中添加大对象
-      leakedArray.push(new Array(10000).fill('memory leak'));
-    });
+        // 清空节点（无内存泄露）
+        function clearNodesWithoutLeak() {
+            // 正确移除事件监听器
+            eventListeners.forEach(({ element, handler }) => {
+                element.removeEventListener('click', handler);
+            });
+            const container = document.getElementById('node-container');
+            container.innerHTML = '';
+            nodeList = [];
+            eventListeners = [];
+        }
 
-    // Canvas 动画
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let animationFrame;
+        // 示例2：变量缓存相关
+        let globalCache = new Map();
+        let leakedData = [];
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 添加缓存
+        function addCache() {
+            for (let i = 0; i < 1000; i++) {
+                const largeObject = {
+                    id: i,
+                    data: new Array(10000).fill(`数据 ${i}`),
+                    timestamp: Date.now()
+                };
+                globalCache.set(i, largeObject);
+            }
+            updateVarContainer();
+        }
 
-      // 绘制随机图形
-      for (let i = 0; i < 100; i++) {
-        ctx.beginPath();
-        ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
-        ctx.arc(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height,
-          Math.random() * 20,
-          0,
-          Math.PI * 2
-        );
-        ctx.fill();
-      }
+        // 清空缓存（有内存泄露）
+        function clearCacheWithLeak() {
+            // 这里虽然清空了 Map，但 leakedData 仍然保留了对数据的引用
+            leakedData = Array.from(globalCache.values());
+            globalCache.clear();
+            updateVarContainer();
+        }
 
-      animationFrame = requestAnimationFrame(animate);
-    }
+        // 清空缓存（无内存泄露）
+        function clearCacheWithoutLeak() {
+            globalCache.clear();
+            leakedData = [];
+            updateVarContainer();
+        }
 
-    canvas.addEventListener('click', () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = null;
-      } else {
-        animate();
-      }
-    });
-  </script>
+        // 更新变量容器显示
+        function updateVarContainer() {
+            const container = document.getElementById('var-container');
+            container.textContent = `当前缓存项数量: ${globalCache.size}`;
+        }
+    </script>
 </body>
 </html>
