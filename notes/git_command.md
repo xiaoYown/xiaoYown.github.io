@@ -173,4 +173,7 @@ git config --global --unset https.proxy
 
 # 更新远程服务指纹
 ssh-keygen -R <host>
+
+# 大文件推送失败
+git config http.lowSpeedTime 0
 ```
