@@ -18,6 +18,7 @@
 
 - [frp]
 - [ngrok] ittun、sunny 和 natapp
+- [zerotier](https://github.com/xubiaolin/docker-zerotier-planet)
 
 ### vpn
 
