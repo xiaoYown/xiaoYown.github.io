@@ -208,10 +208,10 @@ sudo tailscaled install-system-daemon
 
 ```bash
 # 使用预认证密钥连接
-sudo tailscale up --login-server=https://38.47.227.223:8080 --authkey=<预认证密钥>
+sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<预认证密钥>
 
 # 或者手动认证（需要在服务器端手动批准）
-sudo tailscale up --login-server=https://38.47.227.223:8080
+sudo tailscale up --login-server=http://38.47.227.223:8080
 ```
 
 #### 3. 验证连接
