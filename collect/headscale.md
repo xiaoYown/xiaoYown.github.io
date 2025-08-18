@@ -48,7 +48,7 @@ sudo mkdir -p /var/lib/headscale
 
 ```bash
 sudo tee /etc/headscale/config.yaml > /dev/null << 'EOF'
-server_url: https://38.47.227.223:8080
+server_url: http://38.47.227.223:8080
 listen_addr: 0.0.0.0:8080
 metrics_listen_addr: 127.0.0.1:9090
 
@@ -65,6 +65,7 @@ derp:
     enabled: false
   urls:
     - https://controlplane.tailscale.com/derpmap/default
+  # 注意: 如需自建 DERP 服务器，请参考后面的性能优化章节
 
 disable_check_updates: false
 ephemeral_node_inactivity_timeout: 30m
@@ -179,7 +180,7 @@ sudo headscale preauthkeys create --user 1 --expiration 24h
 sudo headscale preauthkeys create --user 1 --expiration 720h --reusable
 
 # 查看所有密钥
-sudo headscale preauthkeys list
+sudo headscale preauthkeys -u 1 list
 ```
 
 ### 第三步: 配置客户端设备
@@ -227,6 +228,176 @@ tailscale ip
 tailscale ping <其他设备名称或IP>
 ```
 
+## 性能优化指南
+
+### 传输速度慢的解决方案
+
+#### 问题诊断
+
+首先在两台在线机器上检查连接状态：
+
+```bash
+# 检查网络连接详情
+tailscale netcheck
+
+# 查看节点连接状态和延迟
+tailscale status
+
+# 测试节点间连接
+tailscale ping 100.64.0.1  # 从 xiaoyown 到 Mini-XY-16
+tailscale ping 100.64.0.6  # 从 Mini-XY-16 到 xiaoyown
+```
+
+#### 解决方案 1: 配置自建 DERP 服务器
+
+在 Headscale 服务器 (38.47.227.223) 上启用内置 DERP：
+
+```bash
+# 修改配置文件
+sudo nano /etc/headscale/config.yaml
+```
+
+更新 DERP 配置：
+
+```yaml
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: "custom"
+    region_name: "Custom DERP"
+    stun_listen_addr: "0.0.0.0:3478"
+    private_key_path: /var/lib/headscale/derp_server.key
+  urls: []  # 移除官方 DERP 服务器
+  auto_update_enabled: false
+```
+
+开放端口并重启：
+
+```bash
+# 开放 DERP 端口
+sudo ufw allow 3478/udp
+
+# 重启 Headscale
+sudo systemctl restart headscale
+```
+
+#### 解决方案 2: 优化 Headscale 配置
+
+```yaml
+# 在 /etc/headscale/config.yaml 中添加/修改
+server_url: http://38.47.227.223:8080
+
+# 优化数据库连接
+database:
+  type: sqlite3
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+    # 添加性能优化
+    pragma:
+      journal_mode: WAL
+      synchronous: NORMAL
+
+# 启用更激进的节点检查
+ephemeral_node_inactivity_timeout: 10m
+node_update_check_interval: 10s
+
+# DNS 优化
+dns:
+  override_local_dns: true
+  nameservers:
+    global:
+      - 223.5.5.5    # 阿里 DNS (中国大陆)
+      - 119.29.29.29 # 腾讯 DNS
+      - 1.1.1.1
+  magic_dns: true
+  base_domain: headscale.local
+```
+
+#### 解决方案 3: 客户端优化
+
+在每个客户端上执行：
+
+```bash
+# 强制重新连接以获取新配置
+sudo tailscale down
+sudo tailscale up --login-server=http://38.47.227.223:8080 --force-reauth
+
+# 启用更详细的日志以诊断问题
+sudo tailscale up --login-server=http://38.47.227.223:8080 --verbose=2
+```
+
+#### 解决方案 4: 网络诊断和修复
+
+1. **检查防火墙设置**：
+```bash
+# 在所有机器上确保 WireGuard 端口开放
+sudo ufw allow 51820/udp
+
+# 检查 iptables 规则
+sudo iptables -L -n | grep -i tailscale
+```
+
+2. **测试直连能力**：
+```bash
+# 在一台机器上运行
+tailscale netcheck --verbose
+
+# 查看是否能建立直连
+tailscale status --json | jq '.Peer[] | {Name: .HostName, Direct: .CurAddr, Relay: .Relay, LastSeen: .LastSeen}'
+```
+
+3. **重置网络状态**：
+```bash
+# 在问题机器上重置 Tailscale
+sudo tailscale logout
+sudo systemctl restart tailscaled
+sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<your-key>
+```
+
+### 性能监控
+
+添加性能监控脚本：
+
+```bash
+#!/bin/bash
+# 保存为 /usr/local/bin/headscale-perf-check.sh
+
+echo "=== Headscale 性能检查 ==="
+echo "时间: $(date)"
+echo
+
+echo "=== 节点状态 ==="
+sudo headscale nodes list
+echo
+
+echo "=== 客户端网络检查 ==="
+tailscale netcheck
+echo
+
+echo "=== 节点连接状态 ==="
+tailscale status
+echo
+
+echo "=== ping 测试 ==="
+for ip in $(tailscale status --json | jq -r '.Peer[] | .TailscaleIPs[0]'); do
+    echo -n "Ping $ip: "
+    ping -c 1 -W 2 $ip > /dev/null 2>&1 && echo "OK" || echo "FAIL"
+done
+```
+
+使脚本可执行：
+```bash
+sudo chmod +x /usr/local/bin/headscale-perf-check.sh
+```
+
+### 预期效果
+
+正确配置后，你应该看到：
+- `tailscale status` 显示节点为 `direct` 连接而不是 `relay`
+- ping 延迟 < 50ms (局域网) 或 < 100ms (广域网)
+- 文件传输速度接近网络带宽上限
+
 ## 服务器端管理命令
 
 ### 设备管理
@@ -243,6 +414,9 @@ sudo headscale nodes delete <node-id>
 
 # 移动设备到其他用户组
 sudo headscale nodes move <node-id> <new-user>
+
+# 检查 DERP 服务器日志
+sudo journalctl -u headscale -n 20 --no-pager | grep -i derp
 ```
 
 ### 路由管理
@@ -299,8 +473,8 @@ sudo tailscale bugreport
 
 1. **服务无法启动**
    ```bash
-   # 检查配置文件语法
-   sudo headscale configtest
+   # 验证配置文件（通过尝试启动服务来检查）
+   sudo headscale serve --check-config
    
    # 查看服务日志
    sudo journalctl -u headscale -f
@@ -312,7 +486,7 @@ sudo tailscale bugreport
    sudo ufw status
    
    # 检查服务器可达性
-   curl -I https://38.47.227.223:8080
+   curl -I http://38.47.227.223:8080
    ```
 
 3. **设备间无法通信**
@@ -361,7 +535,7 @@ sudo nano /etc/headscale/config.yaml
 docker run -d \
   --name headscale-ui \
   -p 80:80 \
-  -e HEADSCALE_URL=https://38.47.227.223:8080 \
+  -e HEADSCALE_URL=http://38.47.227.223:8080 \
   ghcr.io/gurucomputing/headscale-ui:latest
 ```
 
