@@ -549,6 +549,143 @@ docker run -d \
 | **官方节点问题** | ✅ 无硬编码 | ❌ 需要修改源码 |
 | **客户端支持** | ✅ 全平台 | ✅ 全平台 |
 
+## Tailscale 认证状态清理
+
+在使用 Headscale 与 Tailscale 客户端时，有时需要完全清理客户端的认证状态以重新登录。下面提供了在不同系统上彻底清理 Tailscale 认证状态的方法：
+
+### macOS 系统
+
+#### 方法一：标准清理（推荐）
+
+```bash
+# 1. 登出当前账户
+tailscale logout
+
+# 2. 停止 Tailscale 服务
+sudo tailscale down
+
+# 3. 重新登录
+tailscale up --login-server=http://38.47.227.223:8080 --authkey=<预认证密钥>
+```
+
+#### 方法二：彻底重置
+
+```bash
+# 1. 停止 Tailscale 服务
+sudo launchctl stop system/com.tailscale.tailscaled
+
+# 2. 卸载 Tailscale 后台服务
+sudo launchctl bootout system /Library/LaunchDaemons/com.tailscale.tailscaled.plist
+
+# 3. 删除配置文件和状态文件
+sudo rm -rf /Library/Tailscale/
+rm -rf ~/Library/Containers/io.tailscale.ipn.macos/
+rm -rf ~/Library/Application\ Support/Tailscale/
+rm -rf ~/Library/Caches/io.tailscale.ipn.macos/
+rm -rf ~/Library/Preferences/io.tailscale.ipn.macos.plist
+
+# 4. 清理钥匙串中的 Tailscale 条目（可选）
+security delete-generic-password -s "Tailscale" ~/Library/Keychains/login.keychain-db 2>/dev/null || true
+
+# 5. 重新启动 Tailscale 服务
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.tailscale.tailscaled.plist
+sudo launchctl kickstart system/com.tailscale.tailscaled
+```
+
+#### 方法三：通过应用界面
+
+1. 打开 Tailscale 应用
+2. 点击菜单栏中的 Tailscale 图标
+3. 选择账户设置
+4. 点击 "Sign out" 或 "Log out"
+5. 重新登录
+
+### Ubuntu/Linux 系统
+
+#### 方法一：标准清理（推荐）
+
+```bash
+# 1. 登出当前账户
+sudo tailscale logout
+
+# 2. 停止 Tailscale 服务
+sudo tailscale down
+
+# 3. 重新登录
+sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<预认证密钥>
+```
+
+#### 方法二：彻底重置
+
+```bash
+# 1. 停止 Tailscale 服务
+sudo systemctl stop tailscaled
+
+# 2. 禁用自启动（可选）
+sudo systemctl disable tailscaled
+
+# 3. 删除配置文件和状态文件
+sudo rm -rf /var/lib/tailscale/
+sudo rm -rf /etc/tailscale/
+rm -rf ~/.config/tailscale/
+
+# 4. 清理网络接口（如果存在）
+sudo ip link delete tailscale0 2>/dev/null || true
+
+# 5. 重启服务
+sudo systemctl enable tailscaled
+sudo systemctl start tailscaled
+```
+
+#### 方法三：完全卸载重装
+
+```bash
+# 1. 停止服务
+sudo systemctl stop tailscaled
+sudo systemctl disable tailscaled
+
+# 2. 卸载 Tailscale
+sudo apt remove --purge tailscale
+
+# 3. 删除残留文件
+sudo rm -rf /var/lib/tailscale/
+sudo rm -rf /etc/tailscale/
+rm -rf ~/.config/tailscale/
+
+# 4. 重新安装
+curl -fsSL https://tailscale.com/install.sh | sh
+
+# 5. 启动并登录
+sudo systemctl enable --now tailscaled
+sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<预认证密钥>
+```
+
+### 验证清理结果
+
+无论使用哪种方法，清理完成后可以通过以下命令验证：
+
+```bash
+# 检查 Tailscale 状态
+tailscale status
+
+# 应该显示 "Tailscale is stopped" 或未认证状态
+```
+
+### 常见问题
+
+1. **清理后无法重新登录？**
+   - 检查网络连接，确保防火墙没有阻止 Tailscale 的连接
+   - 确认 Headscale 服务器可访问：`curl -I http://38.47.227.223:8080`
+   - 验证预认证密钥是否有效且未过期
+
+2. **设备在管理面板中仍显示在线？**
+   - 在 Headscale 服务器上手动删除该设备：`sudo headscale nodes delete <node-id>`
+
+3. **清理后系统网络异常？**
+   - 重启网络服务或重启系统通常可以解决
+   - 在 Ubuntu: `sudo systemctl restart networking`
+   - 在 macOS: `sudo dscacheutil -flushcache`
+
 ## 总结
 
 Headscale 提供了比 ZeroTier 自建 planet 更简单、更可靠的解决方案：
