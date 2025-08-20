@@ -69,8 +69,11 @@ derp:
     stun_listen_addr: "0.0.0.0:3478"
     http_listen_addr: "0.0.0.0:8080"  # 重要：统一使用 8080 端口避免端口冲突
     private_key_path: /var/lib/headscale/derp_server.key
-  urls: []  # 不使用官方 DERP 服务器
-  auto_update_enabled: false
+    insecure_for_tests: true           # 关键：启用 HTTP 模式，解决 TLS 错误
+    cert_mode: manual                  # 手动证书模式
+    verify_clients: false              # 不验证客户端证书
+  urls: []                             # 不使用官方 DERP 服务器
+  auto_update_enabled: false           # 不自动更新，只使用自建 DERP
 
 disable_check_updates: false
 ephemeral_node_inactivity_timeout: 30m
@@ -841,6 +844,236 @@ ping -c 1 100.64.0.1
 # ✅ 能够 ping 通自己的 Tailscale IP
 ```
 
+## 📡 DERP HTTP 模式配置详解
+
+在我们的实际部署中，发现 DERP 服务器使用 HTTP 模式相比 HTTPS 模式有诸多优势，特别是在私有网络环境中。以下是详细的配置说明和注意事项。
+
+### HTTP 模式的优势
+
+#### 1. **简化配置**
+- ✅ 无需申请和维护 SSL 证书
+- ✅ 避免证书过期导致的服务中断
+- ✅ 减少证书相关的故障排除工作
+- ✅ 配置文件更简洁，降低出错概率
+
+#### 2. **提高兼容性**
+- ✅ 避免 TLS 握手失败
+- ✅ 解决客户端与服务器端协议不匹配问题
+- ✅ 减少因证书验证失败导致的连接问题
+- ✅ 支持更多网络环境（如企业防火墙后）
+
+#### 3. **性能优势**
+- ✅ 减少 TLS 加密解密开销
+- ✅ 降低延迟，特别是在高频连接场景
+- ✅ 简化网络栈，提高数据传输效率
+
+### 关键配置参数说明
+
+```yaml
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: "custom"
+    region_name: "Custom DERP"
+    stun_listen_addr: "0.0.0.0:3478"       # STUN 服务端口，用于 NAT 穿越
+    http_listen_addr: "0.0.0.0:8080"       # 🔑 HTTP 服务端口，与主服务统一
+    private_key_path: /var/lib/headscale/derp_server.key
+    insecure_for_tests: true                # 🔑 启用 HTTP 模式的关键参数
+    cert_mode: manual                       # 🔑 手动证书模式
+    verify_clients: false                   # 🔑 不验证客户端证书
+  urls: []                                  # 不使用官方 DERP
+  auto_update_enabled: false                # 禁用自动更新
+```
+
+#### 核心参数详解
+
+1. **`insecure_for_tests: true`**
+   - **作用**: 允许 DERP 服务器在没有 TLS 证书的情况下运行
+   - **重要性**: 这是启用 HTTP 模式的关键配置
+   - **安全考虑**: 虽然名称包含 "insecure"，但 WireGuard 本身提供端到端加密
+
+2. **`cert_mode: manual`**
+   - **作用**: 告诉 Headscale 不要自动管理证书
+   - **配合使用**: 与 `insecure_for_tests: true` 配合，完全跳过证书验证
+
+3. **`verify_clients: false`**
+   - **作用**: 不验证客户端证书
+   - **效果**: 提高连接成功率，避免证书相关的连接失败
+
+4. **`http_listen_addr` 端口统一**
+   - **关键**: 必须与主服务 `listen_addr` 使用相同端口
+   - **原因**: 避免端口冲突，简化防火墙配置
+   - **常见错误**: 使用不同端口（如 3479）会导致连接失败
+
+### 安全性说明
+
+#### WireGuard 端到端加密保障
+
+虽然 DERP 服务器使用 HTTP 模式，但数据安全性并未降低：
+
+```
+客户端 A ←[WireGuard 加密]→ DERP 中继 ←[WireGuard 加密]→ 客户端 B
+           (端到端加密)              (转发加密数据)           (端到端加密)
+```
+
+- **端到端加密**: WireGuard 在应用层进行加密，DERP 只是转发加密后的数据包
+- **密钥管理**: 加密密钥由 WireGuard 管理，DERP 服务器无法解密实际内容
+- **网络隔离**: 在私有网络环境中，HTTP 传输已经有网络层保护
+
+#### 适用场景
+
+**推荐使用 HTTP 模式的场景**：
+- ✅ 私有网络部署（如内网服务器）
+- ✅ 个人/小团队使用
+- ✅ 测试和开发环境
+- ✅ 希望简化维护的生产环境
+
+**建议使用 HTTPS 模式的场景**：
+- ⚠️ 公网暴露的服务器
+- ⚠️ 大型企业环境
+- ⚠️ 严格的合规要求环境
+
+### 配置验证方法
+
+#### 1. 服务器端验证
+
+```bash
+# 检查 DERP 配置是否生效
+sudo journalctl -u headscale --since "2 minutes ago" | grep -i derp
+# 期望看到：
+# DERP server started, listening on :8080
+# DERP HTTP server started
+
+# 检查端口监听
+sudo netstat -tlnp | grep 8080
+# 期望看到：
+# tcp6  0  0  :::8080  :::*  LISTEN  xxx/headscale
+
+# 测试 HTTP 端点
+curl -v http://localhost:8080/derp
+# 期望响应：
+# HTTP/1.1 426 Upgrade Required
+# Content-Type: text/plain; charset=utf-8
+# DERP requires connection upgrade
+```
+
+#### 2. 客户端验证
+
+```bash
+# 检查网络发现
+tailscale netcheck
+# 期望在 DERP latency 部分看到：
+# Custom DERP: 50ms
+
+# 检查连接状态
+tailscale status
+# 期望看到设备列表，无 HTTPS 连接错误
+
+# 详细网络检查
+tailscale netcheck --verbose 2>&1 | grep -i derp
+# 期望看到成功连接到自定义 DERP 的信息
+```
+
+### 故障排除流程
+
+#### 问题：客户端报告 DERP 连接失败
+
+1. **检查配置一致性**
+   ```bash
+   # 确认服务器配置
+   grep -A 10 "derp:" /etc/headscale/config.yaml
+   
+   # 确认客户端使用 HTTP 连接
+   tailscale status
+   # 登录时确保使用：http://38.47.227.223:8080
+   ```
+
+2. **验证服务状态**
+   ```bash
+   # 检查 Headscale 服务
+   sudo systemctl status headscale
+   
+   # 检查最近日志
+   sudo journalctl -u headscale -n 20 --no-pager
+   ```
+
+3. **网络连通性测试**
+   ```bash
+   # 从客户端测试连接
+   curl -I http://38.47.227.223:8080
+   
+   # 测试 DERP 端点
+   curl -v http://38.47.227.223:8080/derp
+   ```
+
+4. **客户端状态重置**
+   ```bash
+   # 如果仍有问题，清理客户端状态
+   # macOS
+   sudo rm -rf /Library/Tailscale/tailscaled.state
+   sudo launchctl kickstart -k system/com.tailscale.tailscaled
+   
+   # Linux
+   sudo rm -rf /var/lib/tailscale/tailscaled.state
+   sudo systemctl restart tailscaled
+   
+   # 重新登录
+   tailscale up --login-server=http://38.47.227.223:8080 --authkey=<密钥>
+   ```
+
+### 性能监控建议
+
+```bash
+# 创建 DERP 状态监控脚本
+sudo tee /usr/local/bin/derp-monitor.sh > /dev/null << 'EOF'
+#!/bin/bash
+echo "=== DERP 服务状态检查 $(date) ==="
+
+# 检查端口监听
+echo "端口监听状态："
+sudo netstat -tlnp | grep ":8080\|:3478"
+
+# 检查服务日志
+echo -e "\n最近 DERP 日志："
+sudo journalctl -u headscale --since "10 minutes ago" --no-pager | grep -i derp | tail -5
+
+# 测试 HTTP 端点
+echo -e "\nHTTP 端点测试："
+curl -s -o /dev/null -w "状态码: %{http_code}, 响应时间: %{time_total}s\n" http://localhost:8080/derp
+
+# 检查客户端连接（如果在客户端运行）
+if command -v tailscale &> /dev/null; then
+    echo -e "\n客户端 DERP 状态："
+    tailscale netcheck | grep -E "DERP|Custom"
+fi
+EOF
+
+sudo chmod +x /usr/local/bin/derp-monitor.sh
+
+# 运行监控
+/usr/local/bin/derp-monitor.sh
+```
+
+### 最佳实践总结
+
+1. **配置原则**
+   - 统一端口配置，避免冲突
+   - 明确启用 HTTP 模式相关参数
+   - 保持配置文件简洁，减少错误
+
+2. **部署策略**
+   - 先在测试环境验证配置
+   - 逐步部署，观察连接状态
+   - 建立监控机制，及时发现问题
+
+3. **维护要点**
+   - 定期检查服务状态和日志
+   - 监控网络延迟和连接质量
+   - 保持客户端版本更新
+
+通过以上配置和说明，DERP HTTP 模式能够提供稳定、高效的网络中继服务，同时大幅降低配置和维护复杂度。
+
 ## 总结
 
 Headscale 提供了比 ZeroTier 自建 planet 更简单、更可靠的解决方案：
@@ -855,17 +1088,31 @@ Headscale 提供了比 ZeroTier 自建 planet 更简单、更可靠的解决方�
 1. **DERP配置关键点**：
    - `http_listen_addr` 必须与 `listen_addr` 使用相同端口
    - 避免端口冲突，统一使用8080端口
+   - **关键配置**: `insecure_for_tests: true` 解决 TLS 错误
+   - 添加 `cert_mode: manual` 和 `verify_clients: false` 提高容错性
 
 2. **协议一致性**：
    - 服务器使用HTTP时，客户端必须用HTTP连接
    - 遇到协议不匹配时，需要完全清理客户端状态
+   - **HTTP模式优势**: 简化配置，避免证书问题，适合内网环境
 
 3. **网络诊断要点**：
    - `netcheck` 显示网络发现能力
    - 公网IP不等于服务器IP，是正常的NAT行为
    - DERP延迟正常即表示中继服务工作正常
+   - **直连优于DERP**: 局域网内直连延迟更低，性能更好
 
 4. **故障排除思路**：
    - 先检查服务器端配置和日志
    - 再检查客户端连接和认证状态
    - 必要时清理客户端状态重新注册
+   - **DERP健康检查警告**: 在直连可用时不影响实际使用
+
+### 🎆 **自建 DERP 的优勿**
+
+相比使用官方 DERP 服务器，自建 DERP 有以下优势：
+
+- **数据隐私**: 所有中继数据都经过你自己的服务器
+- **网络延迟**: 可以选择更靠近用户的服务器位置
+- **成本控制**: 不依赖第三方服务，自主可控
+- **完全自治**: 不受官方服务政策变化影响
