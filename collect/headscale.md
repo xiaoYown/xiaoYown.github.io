@@ -62,10 +62,15 @@ prefixes:
 
 derp:
   server:
-    enabled: false
-  urls:
-    - https://controlplane.tailscale.com/derpmap/default
-  # 注意: 如需自建 DERP 服务器，请参考后面的性能优化章节
+    enabled: true
+    region_id: 999
+    region_code: "custom"
+    region_name: "Custom DERP"
+    stun_listen_addr: "0.0.0.0:3478"
+    http_listen_addr: "0.0.0.0:8080"  # 重要：统一使用 8080 端口避免端口冲突
+    private_key_path: /var/lib/headscale/derp_server.key
+  urls: []  # 不使用官方 DERP 服务器
+  auto_update_enabled: false
 
 disable_check_updates: false
 ephemeral_node_inactivity_timeout: 30m
@@ -248,147 +253,61 @@ tailscale ping 100.64.0.1  # 从 xiaoyown 到 Mini-XY-16
 tailscale ping 100.64.0.6  # 从 Mini-XY-16 到 xiaoyown
 ```
 
-#### 解决方案 1: 配置自建 DERP 服务器
+#### 解决方案 1: 验证自建 DERP 服务器
 
-在 Headscale 服务器 (38.47.227.223) 上启用内置 DERP：
-
-```bash
-# 修改配置文件
-sudo nano /etc/headscale/config.yaml
-```
-
-更新 DERP 配置：
-
-```yaml
-derp:
-  server:
-    enabled: true
-    region_id: 999
-    region_code: "custom"
-    region_name: "Custom DERP"
-    stun_listen_addr: "0.0.0.0:3478"
-    private_key_path: /var/lib/headscale/derp_server.key
-  urls: []  # 移除官方 DERP 服务器
-  auto_update_enabled: false
-```
-
-开放端口并重启：
+**注意**: 如果按照前面的部署步骤操作，DERP 已经正确配置。这里是验证步骤：
 
 ```bash
-# 开放 DERP 端口
-sudo ufw allow 3478/udp
+# 验证 DERP 配置
+grep -A 8 "derp:" /etc/headscale/config.yaml
 
-# 重启 Headscale
-sudo systemctl restart headscale
+# 验证端口监听
+sudo netstat -tlnp | grep 8080  # HTTP 和 DERP
+sudo netstat -ulnp | grep 3478  # STUN
+
+# 测试 DERP 端点
+curl http://localhost:8080/derp  # 应该返回 "DERP requires connection upgrade"
 ```
 
-#### 解决方案 2: 优化 Headscale 配置
+如果配置有问题，参考「故障排除」章节的 DERP 配置修复步骤。
+
+#### 解决方案 2: 高级性能优化（可选）
+
+如果需要进一步优化，可以调整这些配置：
 
 ```yaml
-# 在 /etc/headscale/config.yaml 中添加/修改
-server_url: http://38.47.227.223:8080
-
-# 优化数据库连接
+# 在 /etc/headscale/config.yaml 中添加性能优化
 database:
   type: sqlite3
   sqlite:
     path: /var/lib/headscale/db.sqlite
-    # 添加性能优化
+    # 性能优化
     pragma:
       journal_mode: WAL
       synchronous: NORMAL
 
-# 启用更激进的节点检查
+# 更频繁的节点检查
 ephemeral_node_inactivity_timeout: 10m
-node_update_check_interval: 10s
 
-# DNS 优化
+# DNS 优化（中国大陆用户）
 dns:
-  override_local_dns: true
   nameservers:
     global:
-      - 223.5.5.5    # 阿里 DNS (中国大陆)
+      - 223.5.5.5    # 阿里 DNS
       - 119.29.29.29 # 腾讯 DNS
       - 1.1.1.1
-  magic_dns: true
-  base_domain: headscale.local
 ```
 
-#### 解决方案 3: 客户端优化
-
-在每个客户端上执行：
+#### 解决方案 3: 客户端重连（问题诊断）
 
 ```bash
-# 强制重新连接以获取新配置
+# 如果连接有问题，尝试重新连接
 sudo tailscale down
-sudo tailscale up --login-server=http://38.47.227.223:8080 --force-reauth
+sudo tailscale up --login-server=http://38.47.227.223:8080
 
-# 启用更详细的日志以诊断问题
-sudo tailscale up --login-server=http://38.47.227.223:8080 --verbose=2
-```
-
-#### 解决方案 4: 网络诊断和修复
-
-1. **检查防火墙设置**：
-```bash
-# 在所有机器上确保 WireGuard 端口开放
-sudo ufw allow 51820/udp
-
-# 检查 iptables 规则
-sudo iptables -L -n | grep -i tailscale
-```
-
-2. **测试直连能力**：
-```bash
-# 在一台机器上运行
+# 查看详细网络信息
 tailscale netcheck --verbose
-
-# 查看是否能建立直连
-tailscale status --json | jq '.Peer[] | {Name: .HostName, Direct: .CurAddr, Relay: .Relay, LastSeen: .LastSeen}'
-```
-
-3. **重置网络状态**：
-```bash
-# 在问题机器上重置 Tailscale
-sudo tailscale logout
-sudo systemctl restart tailscaled
-sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<your-key>
-```
-
-### 性能监控
-
-添加性能监控脚本：
-
-```bash
-#!/bin/bash
-# 保存为 /usr/local/bin/headscale-perf-check.sh
-
-echo "=== Headscale 性能检查 ==="
-echo "时间: $(date)"
-echo
-
-echo "=== 节点状态 ==="
-sudo headscale nodes list
-echo
-
-echo "=== 客户端网络检查 ==="
-tailscale netcheck
-echo
-
-echo "=== 节点连接状态 ==="
-tailscale status
-echo
-
-echo "=== ping 测试 ==="
-for ip in $(tailscale status --json | jq -r '.Peer[] | .TailscaleIPs[0]'); do
-    echo -n "Ping $ip: "
-    ping -c 1 -W 2 $ip > /dev/null 2>&1 && echo "OK" || echo "FAIL"
-done
-```
-
-使脚本可执行：
-```bash
-sudo chmod +x /usr/local/bin/headscale-perf-check.sh
+tailscale status --json | jq '.Peer[]'  # 查看对等节点详情
 ```
 
 ### 预期效果
@@ -397,6 +316,29 @@ sudo chmod +x /usr/local/bin/headscale-perf-check.sh
 - `tailscale status` 显示节点为 `direct` 连接而不是 `relay`
 - ping 延迟 < 50ms (局域网) 或 < 100ms (广域网)
 - 文件传输速度接近网络带宽上限
+
+### 性能监控脚本（可选）
+
+可以创建一个监控脚本来定期检查网络状态：
+
+```bash
+# 创建监控脚本
+sudo tee /usr/local/bin/headscale-check.sh > /dev/null << 'EOF'
+#!/bin/bash
+echo "=== Headscale 状态检查 $(date) ==="
+sudo headscale nodes list
+echo -e "\n=== 网络检查 ==="
+tailscale netcheck
+echo -e "\n=== 连接状态 ==="
+tailscale status
+EOF
+
+# 设置权限
+sudo chmod +x /usr/local/bin/headscale-check.sh
+
+# 运行检查
+/usr/local/bin/headscale-check.sh
+```
 
 ## 服务器端管理命令
 
@@ -469,15 +411,104 @@ sudo tailscale bugreport
 
 ## 故障排除
 
+### 🚨 重要：DERP 服务器配置问题
+
+**问题现象**：客户端报告 "Tailscale could not connect to the 'Custom DERP' relay server" 或者尝试使用 HTTPS 连接 HTTP 服务器。
+
+**根本原因**：`http_listen_addr` 配置不正确，导致端口冲突或协议不匹配。
+
+**解决步骤**：
+
+#### 1. 检查当前 DERP 配置
+
+```bash
+# 检查配置文件中的 DERP 设置
+grep -A 10 "derp:" /etc/headscale/config.yaml
+
+# 检查端口监听状态
+sudo netstat -tlnp | grep 8080  # 检查 TCP 8080
+sudo netstat -ulnp | grep 3478  # 检查 UDP 3478
+```
+
+#### 2. 修复 DERP 配置
+
+```bash
+# 备份配置文件
+sudo cp /etc/headscale/config.yaml /etc/headscale/config.yaml.backup
+
+# 修复 http_listen_addr 配置（关键！）
+sudo sed -i 's/http_listen_addr: "0.0.0.0:3479"/http_listen_addr: "0.0.0.0:8080"/' /etc/headscale/config.yaml
+
+# 或手动编辑确保配置正确
+sudo nano /etc/headscale/config.yaml
+```
+
+确保 DERP 配置如下：
+```yaml
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: "custom"
+    region_name: "Custom DERP"
+    stun_listen_addr: "0.0.0.0:3478"
+    http_listen_addr: "0.0.0.0:8080"  # 🔑 必须与主服务端口一致！
+    private_key_path: /var/lib/headscale/derp_server.key
+  urls: []
+  auto_update_enabled: false
+```
+
+#### 3. 重启服务并验证
+
+```bash
+# 重启 headscale
+sudo systemctl restart headscale
+
+# 检查服务状态和日志
+sudo systemctl status headscale
+sudo journalctl -u headscale --since "2 minutes ago" | grep -i derp
+
+# 验证端口监听
+sudo netstat -tlnp | grep 8080
+sudo netstat -ulnp | grep 3478
+
+# 测试 DERP 端点
+curl http://localhost:8080/derp  # 应该返回 "DERP requires connection upgrade"
+```
+
+#### 4. 客户端协议不匹配问题
+
+**问题现象**：客户端尝试 HTTPS 连接但服务器只提供 HTTP，报错如：
+```
+register request: Post "https://38.47.227.223:8080/machine/register": connection attempts aborted
+```
+
+**解决方案**：完全清理客户端状态
+
+```bash
+# macOS 客户端
+tailscale down
+sudo rm -rf /Library/Tailscale/tailscaled.state
+sudo launchctl kickstart -k system/com.tailscale.tailscaled
+sleep 5
+tailscale up --login-server=http://38.47.227.223:8080 --authkey=<密钥>
+
+# Linux 客户端
+sudo tailscale down
+sudo rm -rf /var/lib/tailscale/tailscaled.state
+sudo systemctl restart tailscaled
+sudo tailscale up --login-server=http://38.47.227.223:8080 --authkey=<密钥>
+```
+
 ### 常见问题
 
 1. **服务无法启动**
    ```bash
-   # 验证配置文件（通过尝试启动服务来检查）
-   sudo headscale serve --check-config
+   # 验证配置文件语法
+   sudo headscale configtest 2>/dev/null || echo "配置检查命令不存在，直接查看日志"
    
-   # 查看服务日志
-   sudo journalctl -u headscale -f
+   # 查看详细启动日志
+   sudo journalctl -u headscale -f --since "5 minutes ago"
    ```
 
 2. **客户端无法连接**
@@ -485,17 +516,34 @@ sudo tailscale bugreport
    # 检查防火墙
    sudo ufw status
    
-   # 检查服务器可达性
+   # 检查服务器可达性（重要：使用 HTTP）
    curl -I http://38.47.227.223:8080
+   curl -I http://38.47.227.223:8080/health
    ```
 
 3. **设备间无法通信**
    ```bash
-   # 检查路由表
+   # 检查路由表和连接状态
    tailscale status
+   tailscale netcheck
    
    # 测试连通性
    tailscale ping <target-device>
+   
+   # 检查网络接口
+   ifconfig | grep -A 3 "100.64.0"
+   ```
+
+4. **节点显示离线但实际在线**
+   ```bash
+   # 服务器端：查看节点列表
+   sudo headscale nodes list
+   
+   # 强制删除问题节点
+   sudo headscale nodes delete --identifier <node-id> --force
+   
+   # 客户端：重新注册
+   tailscale up --login-server=http://38.47.227.223:8080 --authkey=<密钥>
    ```
 
 ### 日志查看
@@ -686,6 +734,113 @@ tailscale status
    - 在 Ubuntu: `sudo systemctl restart networking`
    - 在 macOS: `sudo dscacheutil -flushcache`
 
+## 🎉 成功案例验证
+
+### 网络拓扑验证
+
+成功部署后，你应该能看到类似以下的网络拓扑：
+
+```bash
+# 检查自己的设备信息
+tailscale status
+# 输出示例：
+100.64.0.1      mini-xy-16           dev-team     macOS   -           # 当前设备
+100.64.0.7      mac                  dev-team     macOS   offline
+100.64.0.5      xiaoyown-mac         dev-team     macOS   offline  
+100.64.0.8      xiaoyown             dev-team     linux   offline
+
+# 检查网络接口
+ifconfig | grep -A 3 "100.64.0"
+# 输出示例：
+	inet 100.64.0.1 --> 100.64.0.1 netmask 0xffffffff
+	inet6 fd7a:115c:a1e0::1 --> fd7a:115c:a1e0::1 prefixlen 128
+
+# 检查路由表
+route -n get 100.64.0.0/10
+# 输出示例：
+   route to: 100.64.0.0
+destination: 100.64.0.0
+       mask: 255.192.0.0
+  interface: utun0
+```
+
+### 网络连通性测试
+
+```bash
+# 1. 测试本机 Tailscale 接口
+ping -c 3 100.64.0.1
+# 预期：正常响应，延迟 < 1ms
+
+# 2. 检查网络发现
+tailscale netcheck
+# 预期输出：
+Report:
+	* UDP: true
+	* IPv4: yes, [你的公网IP]:端口
+	* Nearest DERP: Custom DERP
+	* DERP latency: ~50-100ms (Custom DERP)
+
+# 3. 检查网络端点
+tailscale debug netmap | jq '.SelfNode.Endpoints'
+# 预期：显示多个网络端点，包括公网IP和私有网络IP
+```
+
+### IP地址分配规律
+
+基于我们的实际操作，IP地址分配遵循以下规律：
+
+- **网段**: `100.64.0.0/10` (Tailscale标准网段)
+- **分配顺序**: 按设备注册顺序递增
+- **IP示例**:
+  - `100.64.0.1` - 第一台重新注册的设备
+  - `100.64.0.5` - xiaoyown-mac
+  - `100.64.0.7` - mac
+  - `100.64.0.8` - xiaoyown (Linux)
+  - `100.64.0.9` - 之前的 mini-xy-16 (已删除)
+
+### 公网IP和网络环境
+
+```bash
+# 查看你的公网出口IP信息
+curl -s http://ipinfo.io/[你的公网IP] | jq
+# 这个IP会显示在 tailscale netcheck 的 IPv4 字段中
+```
+
+**网络拓扑关系**：
+```
+客户端设备 (深圳) ←→ 121.35.47.22 (公网出口)
+                   ↓
+              互联网路由
+                   ↓  
+            38.47.227.223:8080 (新加坡 Headscale服务器)
+                   ↑
+              DERP中继服务 + 控制平面
+                   ↓
+            其他Tailscale节点
+```
+
+### 健康检查通过标准
+
+✅ **正常工作的标志**：
+
+```bash
+tailscale status
+# ✅ 显示你的设备为 "-"（当前设备）
+# ✅ 没有HTTPS连接错误
+# ✅ 其他设备显示相应状态（online/offline）
+
+tailscale netcheck
+# ✅ UDP: true
+# ✅ IPv4: yes, [公网IP]:[端口]
+# ✅ DERP latency 正常（通常 < 200ms）
+
+ifconfig | grep "100.64.0"
+# ✅ 显示正确的 Tailscale IP 地址
+
+ping -c 1 100.64.0.1
+# ✅ 能够 ping 通自己的 Tailscale IP
+```
+
 ## 总结
 
 Headscale 提供了比 ZeroTier 自建 planet 更简单、更可靠的解决方案：
@@ -694,3 +849,23 @@ Headscale 提供了比 ZeroTier 自建 planet 更简单、更可靠的解决方�
 - **维护复杂度**: 几乎零维护 vs 持续调试
 - **性能**: WireGuard 内核级性能
 - **稳定性**: 无官方节点硬编码问题
+
+### 🔑 关键经验总结
+
+1. **DERP配置关键点**：
+   - `http_listen_addr` 必须与 `listen_addr` 使用相同端口
+   - 避免端口冲突，统一使用8080端口
+
+2. **协议一致性**：
+   - 服务器使用HTTP时，客户端必须用HTTP连接
+   - 遇到协议不匹配时，需要完全清理客户端状态
+
+3. **网络诊断要点**：
+   - `netcheck` 显示网络发现能力
+   - 公网IP不等于服务器IP，是正常的NAT行为
+   - DERP延迟正常即表示中继服务工作正常
+
+4. **故障排除思路**：
+   - 先检查服务器端配置和日志
+   - 再检查客户端连接和认证状态
+   - 必要时清理客户端状态重新注册
